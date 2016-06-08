@@ -40,6 +40,7 @@ echo source /opt/ros/indigo/setup.bash >> ~/.bashrc
 echo source ~/workspace/devel/setup.bash >> ~/.bashrc
 echo alias yhome="'cd ~/workspace/src/'" >> ~/.bashrc
 echo export ROS_WORKSPACE_INSTALL_PATH=~/workspace/install/ >> ~/.bashrc
+echo export ROS_ROOT_PATH=/opt/ros/indigo/ >> ~/.bashrc
 
 echo alias ymake="'catkin_make install -DCMAKE_INSTALL_PREFIX:PATH=$ROS_WORKSPACE_INSTALL_PATH -C ~/workspace -DCMAKE_BUILD_TYPE=Debug'" >> ~/.bashrc
 echo alias ymakerelease="'catkin_make install -DCMAKE_INSTALL_PREFIX:PATH=$ROS_WORKSPACE_INSTALL_PATH -C ~/workspace -DCMAKE_BUILD_TYPE=Release'" >> ~/.bashrc

@@ -18,7 +18,8 @@ sudo apt-get install -y python-wstool
 sudo apt-get install -y ros-indigo-desktop-full
 #install moveit
 sudo apt-get install -y ros-indigo-moveit-full
-
+# nlopt, needed by trac ik
+sudo apt-get install libnlopt-dev
 
 sudo apt-get install -y cmake python-catkin-pkg python-empy python-nose python-setuptools libgtest-dev build-essential
 sudo apt-get install -y ros-indigo-catkin

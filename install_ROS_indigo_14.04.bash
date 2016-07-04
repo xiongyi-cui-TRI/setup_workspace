@@ -12,6 +12,18 @@ sudo apt-get install -y meld
 sudo apt-get install -y terminator
 sudo apt-get install -y htop
 sudo apt-get install -y python-wstool
+sudo apt-get install -y xclip
+
+# install gtest
+cd
+mkdir library
+cd library
+git clone https://github.com/google/googletest
+mkdir build
+cd build
+cmake .. -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=/usr/
+make -j7
+sudo make install
 
 
 # install ros
@@ -19,7 +31,7 @@ sudo apt-get install -y ros-indigo-desktop-full
 #install moveit
 sudo apt-get install -y ros-indigo-moveit-full
 # nlopt, needed by trac ik
-sudo apt-get install libnlopt-dev
+sudo apt-get install -y libnlopt-dev
 
 sudo apt-get install -y cmake python-catkin-pkg python-empy python-nose python-setuptools libgtest-dev build-essential
 sudo apt-get install -y ros-indigo-catkin
@@ -47,7 +59,7 @@ echo alias ymake="'catkin_make install -DCMAKE_INSTALL_PREFIX:PATH=$ROS_WORKSPAC
 echo alias ymakerelease="'catkin_make install -DCMAKE_INSTALL_PREFIX:PATH=$ROS_WORKSPACE_INSTALL_PATH -C ~/workspace -DCMAKE_BUILD_TYPE=Release'" >> ~/.bashrc
 echo alias rmake="'cmake .. -DCMAKE_INSTALL_PREFIX:PATH=./install/ -DCMAKE_BUILD_TYPE=Debug && make -j7'" >> ~/.bashrc
 echo export ROS_PACKAGE_PATH=~/workspace/src/:/opt/ros/indigo/share:$ROS_PACKAGE_PATH >> ~/.bashrc
-
+echo alias clion-keyboard-fix="'killall -9 ibus-x11'" >> ~/.bashrc
 echo '########## system_setup.bash  END' >> ~/.bashrc
 source ~/.bashrc
 

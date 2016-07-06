@@ -55,8 +55,11 @@ echo alias yhome="'cd ~/workspace/src/'" >> ~/.bashrc
 echo export ROS_WORKSPACE_INSTALL_PATH=~/workspace/install/ >> ~/.bashrc
 echo export ROS_ROOT_PATH=/opt/ros/indigo/ >> ~/.bashrc
 
+alias ytest='yhome && cd ../build/ && ctest'
+
 echo alias ymake="'catkin_make install -DCMAKE_INSTALL_PREFIX:PATH=$ROS_WORKSPACE_INSTALL_PATH -C ~/workspace -DCMAKE_BUILD_TYPE=Debug'" >> ~/.bashrc
 echo alias ymakerelease="'catkin_make install -DCMAKE_INSTALL_PREFIX:PATH=$ROS_WORKSPACE_INSTALL_PATH -C ~/workspace -DCMAKE_BUILD_TYPE=Release'" >> ~/.bashrc
+echo alias ytest="''yhome && cd ../build/ && ctest''" >> ~/.bashrc
 echo alias rmake="'cmake .. -DCMAKE_INSTALL_PREFIX:PATH=./install/ -DCMAKE_BUILD_TYPE=Debug && make -j7'" >> ~/.bashrc
 echo export ROS_PACKAGE_PATH=~/workspace/src/:/opt/ros/indigo/share:$ROS_PACKAGE_PATH >> ~/.bashrc
 echo alias clion-keyboard-fix="'killall -9 ibus-x11'" >> ~/.bashrc

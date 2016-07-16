@@ -13,6 +13,8 @@ sudo apt-get install -y terminator
 sudo apt-get install -y htop
 sudo apt-get install -y python-wstool
 sudo apt-get install -y xclip
+sudo apt-get install -y sshpass
+
 
 # install gtest
 cd

@@ -4,9 +4,11 @@ sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58
 echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" >> file
 sudo apt-get update
 sudo apt-get purge lxc-docker
-sudo apt-get install linux-image-extra-$(uname -r)
-sudo apt-get install apparmor
-sudo apt-get install docker-engine
+
+sudo apt-get install -y linux-image-extra-$(uname -r)
+sudo apt-get install -y apparmor
+sudo apt-get install -y docker-engine
+sudo usermod -aG docker $(whoami)
 
 sudo service docker start
 # run example

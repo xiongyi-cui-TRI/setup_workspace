@@ -1,0 +1,20 @@
+# reference 
+# https://github.com/ros-infrastructure/ros_buildfarm/blob/master/doc/environment.rst
+
+apt-get install python3-venv
+mkdir /tmp/deploy_ros_buildfarm
+cd /tmp/deploy_ros_buildfarm
+
+python3.4 -m venv myenv --without-pip
+ . myenv/bin/activate
+
+# necessary because of '--without-pip'
+ curl https://bootstrap.pypa.io/get-pip.py | python3
+
+
+ pip3 install empy
+pip3 install jenkinsapi
+pip3 install rosdistro
+pip3 install ros_buildfarm
+
+cd /tmp/deploy_ros_buildfarm

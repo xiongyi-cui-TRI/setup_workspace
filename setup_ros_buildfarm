@@ -17,4 +17,18 @@ pip3 install jenkinsapi
 pip3 install rosdistro
 pip3 install ros_buildfarm
 
+# Using a different version of ros_buildfarm
 cd /tmp/deploy_ros_buildfarm
+
+git clone git@github.com:cuixiongyi/ros_buildfarm.git
+cd ros_buildfarm
+git checkout rd_repo
+export PYTHONPATH=`pwd`:$PYTHONPATH
+python3.4 setup.py install
+
+# repo
+mkdir /tmp/devel_job
+generate_devel_script_rd_repo.py https://raw.githubusercontent.com/cuixiongyi/rd_buildfarm_jenkins_config/rd_test/index.yaml indigo default roscpp_core ubuntu trusty amd64 > /tmp/devel_job/devel_job_indigo_roscpp_core.sh
+cd /tmp/devel_job
+sh devel_job_indigo_roscpp_core.sh
+

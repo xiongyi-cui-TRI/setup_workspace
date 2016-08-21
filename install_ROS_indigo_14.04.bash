@@ -18,15 +18,15 @@ sudo apt-get install -y sshpass
 
 # install gtest
 cd
-mkdir library
-cd library
+mkdir -p ~/library
+cd ~/library
 git clone https://github.com/google/googletest
+cd googletest/
 mkdir build
 cd build
 cmake .. -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=/usr/
 make -j7
 sudo make install
-
 
 # install ros
 sudo apt-get install -y ros-indigo-desktop-full

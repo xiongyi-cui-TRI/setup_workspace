@@ -8,18 +8,34 @@ sudo apt-get install python-rosdep python-rosinstall-generator python-wstool pyt
 sudo rosdep init
 rosdep update
 
-mkdir ~/ros_workspace
+mkdir -p ~/ros_workspace
 cd ~/ros_workspace
-rosinstall_generator desktop --rosdistro indigo --deps --wet-only --tar > indigo-desktop-wet.rosinstall
-wstool init -j8 src indigo-desktop-wet.rosinstall
+# rosinstall_generator desktop_full --rosdistro indigo --deps --wet-only --tar > indigo-desktop-full-wet.rosinstall
+wstool init -j8 src ~/library/setup_workspace/rd_ros_distro.rosinstall
+# wstool merge https://raw.githubusercontent.com/ros-planning/moveit/indigo-devel/moveit.rosinstall
 
 # If wstool init fails or is interrupted, you can resume the download by running:
 # wstool update -j 4 -t src
 # Resolving Dependencies
-sudo rosdep install --from-paths src --ignore-src --rosdistro indigo -y
+# sudo rosdep install --from-paths src --ignore-src --rosdistro indigo 
+sudo rosdep install --from-paths src --rosdistro indigo 
 
 # for some reason class_loader requires libpocofoundationd, which is the debug version 
-sudo apt-get install libpocofoundation9*
+sudo apt-get install -y libpocofoundation9*
 
 sudo ./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Debug
 source ~/ros_workspace/install_isolated/setup.bash
+
+# install moveit
+# mkdir -p ~/ws_moveit/src
+# cd ~/ws_moveit/src
+# wstool init .
+# wstool merge https://raw.githubusercontent.com/ros-planning/moveit/indigo-devel/moveit.rosinstall
+# wstool update
+# # rosdep install --from-paths . --ignore-src --rosdistro indigo -y
+# cd ..
+# catkin config --extend /opt/ros/indigo/ ~/ros_workspace/install_isolated/ --cmake-args -DCMAKE_BUILD_TYPE=Debug
+# catkin build
+
+# setup bashrc
+./~/library/setup_workspace/setup_compiled_ros_bashrc.sh

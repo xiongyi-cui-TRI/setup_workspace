@@ -1,4 +1,8 @@
 - git:
+    local-name: ivcon
+    uri: https://github.com/ros-gbp/ivcon-release.git
+    version: release/indigo/ivcon/0.1.5-0
+- git:
     local-name: actionlib
     uri: https://github.com/ros-gbp/actionlib-release.git
     version: release/indigo/actionlib/1.11.6-0
@@ -182,6 +186,10 @@
     local-name: geometry/eigen_conversions
     uri: https://github.com/ros-gbp/geometry-release.git
     version: release/indigo/eigen_conversions/1.11.8-0
+- git:
+    local-name: convex_decomposition
+    uri: https://github.com/ros-gbp/convex_decomposition-release.git
+    version: release/indigo/convex_decomposition/0.1.10-0
 - git:
     local-name: geometry/geometry
     uri: https://github.com/ros-gbp/geometry-release.git
@@ -896,19 +904,3 @@
     version: release/indigo/xacro/1.9.5-0
 
 
-# from https://raw.githubusercontent.com/ros-planning/moveit/indigo-devel/moveit.rosinstall
-
-# This file is primarilly intended for the users who want to build MoveIt! from source.
-# Used with wstool, users can download source of all packages of MoveIt!.
-- git:
-    local-name: moveit
-    uri: https://github.com/ros-planning/moveit.git
-    version: indigo-devel
-- git:
-    local-name: moveit_msgs
-    uri: https://github.com/ros-planning/moveit_msgs.git
-    version: indigo-devel
-- git:
-    local-name: moveit_resources
-    uri: https://github.com/ros-planning/moveit_resources.git
-    version: master

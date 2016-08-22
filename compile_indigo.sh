@@ -18,12 +18,12 @@ wstool init -j8 src ~/library/setup_workspace/rd_ros_distro.rosinstall
 # wstool update -j 4 -t src
 # Resolving Dependencies
 # sudo rosdep install --from-paths src --ignore-src --rosdistro indigo 
-sudo rosdep install --from-paths src --rosdistro indigo 
+sudo rosdep install --from-paths src --rosdistro indigo -y
 
 # for some reason class_loader requires libpocofoundationd, which is the debug version 
 sudo apt-get install -y libpocofoundation9*
 
-sudo ./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Debug
+sudo ./src/catkin/bin/catkin_make_isolated -j7 --install -DCMAKE_BUILD_TYPE=Debug
 source ~/ros_workspace/install_isolated/setup.bash
 
 # install moveit

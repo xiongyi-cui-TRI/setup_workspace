@@ -11,7 +11,7 @@ rosdep update
 mkdir -p ~/ros_workspace
 cd ~/ros_workspace
 # rosinstall_generator desktop_full --rosdistro indigo --deps --wet-only --tar > indigo-desktop-full-wet.rosinstall
-# rosinstall_generator desktop_full --rosdistro indigo --deps --wet-only --tar > rd_ros_distro.rosinstall
+# rosinstall_generator RPP --rosdistro indigo --deps --wet-only --tar > rd_ros_distro.rosinstall
 wstool init -j8 src ~/library/setup_workspace/rd_ros_distro.rosinstall
 # wstool merge https://raw.githubusercontent.com/ros-planning/moveit/indigo-devel/moveit.rosinstall
 

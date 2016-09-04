@@ -62,20 +62,24 @@ catkin_make
 source devel/setup.bash
 
 echo '########## system_setup.bash  START' >> ~/.bashrc
-echo source /opt/ros/indigo/setup.bash >> ~/.bashrc
-echo source ~/workspace/devel/setup.bash >> ~/.bashrc
-echo alias yhome="'cd ~/workspace/src/'" >> ~/.bashrc
-echo export ROS_WORKSPACE_INSTALL_PATH=~/workspace/install/ >> ~/.bashrc
+echo export RD_ROS_WORKSPACE=~/workspace >> ~/.bashrc
+echo export RD_LIB_PATH=~/library/ >> ~/.bashrc
+echo export RD_LIB_VENDOR_PATH=~/library/rdlib/ >> ~/.bashrc
 echo export ROS_ROOT_PATH=/opt/ros/indigo/ >> ~/.bashrc
 
-alias ytest='yhome && cd ../build/ && ctest'
+echo source ${ROS_ROOT_PATH}/setup.bash >> ~/.bashrc
+echo source ${RD_ROS_WORKSPACE}/devel/setup.bash >> ~/.bashrc
+echo export ROS_WORKSPACE_INSTALL_PATH=${RD_ROS_WORKSPACE}/install/ >> ~/.bashrc
 
-echo alias ymake="'catkin_make install -DCMAKE_INSTALL_PREFIX:PATH=$ROS_WORKSPACE_INSTALL_PATH -C ~/workspace -DCMAKE_BUILD_TYPE=Debug'" >> ~/.bashrc
-echo alias ymakerelease="'catkin_make install -DCMAKE_INSTALL_PREFIX:PATH=$ROS_WORKSPACE_INSTALL_PATH -C ~/workspace -DCMAKE_BUILD_TYPE=Release'" >> ~/.bashrc
-echo alias ytest="''yhome && cd ../build/ && ctest''" >> ~/.bashrc
-echo alias rmake="'cmake .. -DCMAKE_INSTALL_PREFIX:PATH=./install/ -DCMAKE_BUILD_TYPE=Debug && make -j7'" >> ~/.bashrc
-echo export ROS_PACKAGE_PATH=~/workspace/src/:/opt/ros/indigo/share:$ROS_PACKAGE_PATH >> ~/.bashrc
+echo alias yhome="'cd ${RD_ROS_WORKSPACE}/src/'" >> ~/.bashrc
+echo alias ymake="'catkin_make install -DCMAKE_INSTALL_PREFIX:PATH=$ROS_WORKSPACE_INSTALL_PATH -C ${RD_ROS_WORKSPACE} -DCMAKE_BUILD_TYPE=Debug'" >> ~/.bashrc
+echo alias ymakerelease="'catkin_make install -DCMAKE_INSTALL_PREFIX:PATH=$ROS_WORKSPACE_INSTALL_PATH -C ${RD_ROS_WORKSPACE} -DCMAKE_BUILD_TYPE=Release'" >> ~/.bashrc
+echo alias ytest="'(yhome && cd ../build/ && ctest)'" >> ~/.bashrc
+
+echo alias rhome="'cd ${RD_LIB_PATH}/RD_FreeCAD'" >> ~/.bashrc
+echo alias rmake="'(rhome && cd build && cmake .. -DCMAKE_INSTALL_PREFIX:PATH=./install/ -DCMAKE_BUILD_TYPE=Debug && make -j7)'" >> ~/.bashrc
+echo alias rmakerelease="'(rhome && cd build && cmake .. -DCMAKE_INSTALL_PREFIX:PATH=./install/ -DCMAKE_BUILD_TYPE=Release && make -j7)'" >> ~/.bashrc
+echo export ROS_PACKAGE_PATH=${RD_ROS_WORKSPACE}/src/:${ROS_ROOT_PATH}/share:$ROS_PACKAGE_PATH >> ~/.bashrc
 echo alias clion-keyboard-fix="'killall -9 ibus-x11'" >> ~/.bashrc
 echo '########## system_setup.bash  END' >> ~/.bashrc
 source ~/.bashrc
-

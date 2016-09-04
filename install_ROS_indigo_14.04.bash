@@ -28,6 +28,17 @@ cmake .. -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=/usr/
 make -j7
 sudo make install
 
+cd ~/library
+git clone https://github.com/KjellKod/g3log.git
+cd g3log
+mkdir build
+cd build
+cmake .. -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=/usr/ -DCMAKE_BUILD_TYPE=Release
+make -j7
+sudo make install
+
+
+
 # install ros
 sudo apt-get install -y ros-indigo-desktop-full
 #install moveit

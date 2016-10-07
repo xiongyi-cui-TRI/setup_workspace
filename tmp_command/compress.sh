@@ -1,5 +1,5 @@
 
-sudo apt-get install pbzip2 
+sudo apt-get install -y pbzip2 
 
 # compress tar.bz2 as default, fast and small
 

@@ -1,4 +1,6 @@
 
+# usage 
+# addSudoUser xiongyi
 
 function addSudoUser
 {

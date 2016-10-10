@@ -5,7 +5,7 @@ function getAutoStartRoslaunch_PID
 }
 function Command_To_Launch_AutoStartRoslaunch
 {
-	`(python $RD_SETUP_SCRIPT_PATH/dev/autoStartRobotRoslaunchFile.py >> /tmp/rdlogs/autoStartRobotRoslaunch.log ) &`
+	`(python $RD_SETUP_SCRIPT_PATH/dev/autoStartRobotRoslaunchFile.py >> $RD_LOG_DIR/autoStartRobotRoslaunch.log ) &`
 }
 
 autoStartPID=$(getAutoStartRoslaunch_PID)

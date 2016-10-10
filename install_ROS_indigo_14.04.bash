@@ -47,36 +47,30 @@ exportPath()
 	echo $@ >> ~/.bashrc
 }
 
-exportRD_ROS_WORKSPACE='export RD_ROS_WORKSPACE=~/workspace'
-exportPath $exportRD_ROS_WORKSPACE
-exportRD_LIB_PATH='export RD_LIB_PATH=~/library/'
-exportPath $exportRD_LIB_PATH
+exportPath 'export RD_ROS_WORKSPACE=~/workspace'
+exportPath 'export RD_LIB_PATH=~/library/'
 mkdir -p $RD_LIB_PATH
 
-exportRD_SETUP_SCRIPT_PATH='export RD_SETUP_SCRIPT_PATH=${RD_LIB_PATH}/setup_workspace'
-exportPath $exportRD_SETUP_SCRIPT_PATH
-
-exportRD_LIB_VENDOR_PATH='export RD_LIB_VENDOR_PATH=~/library/rdlib/'
-exportPath $exportRD_LIB_VENDOR_PATH
-
-exportROS_ROOT_PATH='export ROS_ROOT_PATH=/opt/ros/indigo/'
-exportPath $exportROS_ROOT_PATH
-
-exportROS_WORKSPACE_INSTALL_PATH='export ROS_WORKSPACE_INSTALL_PATH=${RD_ROS_WORKSPACE}/install/'
-exportPath $exportROS_WORKSPACE_INSTALL_PATH
-
-exportROS_PACKAGE_PATH='export ROS_PACKAGE_PATH=${RD_ROS_WORKSPACE}/src/:${ROS_ROOT_PATH}/share:$ROS_PACKAGE_PATH'
-exportPath $exportROS_PACKAGE_PATH
-
-exportRD_SYSTEM_CONFIG_DIR='export RD_SYSTEM_CONFIG_DIR=/var/rd-config'
-exportPath $exportRD_SYSTEM_CONFIG_DIR
+exportPath 'export RD_SYSTEM_CONFIG_DIR=/var/rd-config'
 sudo mkdir -p $RD_SYSTEM_CONFIG_DIR
 sudo chmod 777 -R $RD_SYSTEM_CONFIG_DIR
 
-exportRD_ROBOT_ROSLAUNCH_CONFIG_FILE='export RD_ROBOT_ROSLAUNCH_CONFIG_FILE=rd_robot_roslaunch.config'
-exportRD_ROBOT_ROSLAUNCH_CONFIG_FILE_FULLPATH='export RD_ROBOT_ROSLAUNCH_CONFIG_FILE_FULLPATH=$RD_SYSTEM_CONFIG_DIR/rd_robot_roslaunch.config'
-exportPath $exportRD_ROBOT_ROSLAUNCH_CONFIG_FILE
-exportPath $exportRD_ROBOT_ROSLAUNCH_CONFIG_FILE_FULLPATH
+exportPath 'export RD_LOG_DIR=/var/rd-logs'
+sudo mkdir -p $RD_LOG_DIR
+sudo chmod 777 -R $RD_LOG_DIR
+
+exportPath 'export RD_SETUP_SCRIPT_PATH=${RD_LIB_PATH}/setup_workspace'
+
+exportPath 'export RD_LIB_VENDOR_PATH=~/library/rdlib/'
+
+exportPath 'export ROS_ROOT_PATH=/opt/ros/indigo/'
+
+exportPath 'export ROS_WORKSPACE_INSTALL_PATH=${RD_ROS_WORKSPACE}/install/'
+
+exportPath 'export ROS_PACKAGE_PATH=${RD_ROS_WORKSPACE}/src/:${ROS_ROOT_PATH}/share:$ROS_PACKAGE_PATH'
+
+exportPath 'export RD_ROBOT_ROSLAUNCH_CONFIG_FILE=rd_robot_roslaunch.config'
+exportPath 'export RD_ROBOT_ROSLAUNCH_CONFIG_FILE_FULLPATH=$RD_SYSTEM_CONFIG_DIR/rd_robot_roslaunch.config'
 
 echo '########## system_setup.bash  START' >> ~/.bashrc
 
@@ -95,7 +89,7 @@ echo alias frmake="'(rhome && cd build && make -j7 -f CMakeFiles/Makefile2)'" >>
 echo alias rmakerelease="'(rhome && cd build && cmake .. -DCMAKE_INSTALL_PREFIX:PATH=./install/ -DCMAKE_BUILD_TYPE=Release && make -j7)'" >> ~/.bashrc
 echo alias clion-keyboard-fix="'killall -9 ibus-x11'" >> ~/.bashrc
 echo alias gitpruneRemote="'git fetch origin --prune'" >> ~/.bashrc
-echo alias startRobotRoslaunch="'././${RD_SETUP_SCRIPT_PATH}/dev/start-auto-roslaunch.sh'" >> ~/.bashrc
+echo alias startRobotRoslaunch="'${RD_SETUP_SCRIPT_PATH}/dev/start-auto-roslaunch.sh'" >> ~/.bashrc
 echo '########## system_setup.bash  END' >> ~/.bashrc
 source ~/.bashrc
 

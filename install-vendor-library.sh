@@ -4,6 +4,11 @@
 # used in watch read roslauch config file program
 sudo pip install watchdog
 
+# install clang
+(
+
+sudo apt-get install -y clang-3.8 clang-format-3.8 
+	)
 # install gtest
 cd $RD_LIB_PATH
 
@@ -23,6 +28,7 @@ make install
 mkdir -p /tmp/rdlogs/
 cd ~/library
 git clone git@github.com:RedDragon-Tech/rlog.git
+git checkout origin/rd_customize
 cd rlog
 mkdir build
 cd build

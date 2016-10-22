@@ -4,6 +4,16 @@ sudo chmod -R 555 /var/log/
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net --recv-key 0xB01FA116
 
+# clang debain
+# newest
+sudo add-apt-repository "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty main"
+sudo add-apt-repository "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty main"
+# clang 3.8
+sudo add-apt-repository "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
+sudo add-apt-repository "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
+
+wget -O - http://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
+
 sudo apt-get update
 
 sudo apt-get install -y build-essential

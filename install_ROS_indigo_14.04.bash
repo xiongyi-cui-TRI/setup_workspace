@@ -33,6 +33,8 @@ sudo easy_install pip
 sudo apt-get install -y ros-indigo-desktop-full
 #install moveit
 sudo apt-get install -y ros-indigo-moveit-full
+sudo apt-get install -y ros-indigo-tf2-geometry-msgs
+
 # nlopt, needed by trac ik
 sudo apt-get install -y libnlopt-dev
 
@@ -99,7 +101,9 @@ echo alias frmake="'(rhome && cd build && make -j7 -f CMakeFiles/Makefile2)'" >>
 echo alias rmakerelease="'(rhome && cd build && cmake .. -DCMAKE_INSTALL_PREFIX:PATH=./install/ -DCMAKE_BUILD_TYPE=Release && make -j7)'" >> ~/.bashrc
 echo alias clion-keyboard-fix="'killall -9 ibus-x11'" >> ~/.bashrc
 echo alias gitpruneRemote="'git fetch origin --prune'" >> ~/.bashrc
-echo alias startRobotRoslaunch="'${RD_SETUP_SCRIPT_PATH}/dev/start-auto-roslaunch.sh'" >> ~/.bashrc
+# this is to auto start/stop robot launch file
+echo alias startRobotRoslaunch="'${RD_SETUP_SCRIPT_PATH}/dev/start-auto-roslaunch.sh start'" >> ~/.bashrc
+echo alias stopRobotRoslaunch="'${RD_SETUP_SCRIPT_PATH}/dev/start-auto-roslaunch.sh stop'" >> ~/.bashrc
 echo '########## system_setup.bash  END' >> ~/.bashrc
 source ~/.bashrc
 

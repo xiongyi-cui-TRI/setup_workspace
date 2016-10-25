@@ -8,6 +8,12 @@ sudo pip install watchdog
 (
 
 sudo apt-get install -y clang-3.8 clang-format-3.8 
+
+# to make Adress Sanitizer print line number
+# http://stackoverflow.com/questions/38079761/why-does-asan-symbolizer-path-no-longer-work-with-version-adorned-binaries
+exportPath 'export ASAN_SYMBOLIZER_PATH=/usr/bin/llvm-symbolizer-3.8'
+sudo ln -s /usr/bin/llvm-symbolizer-3.8 /usr/bin/llvm-symbolizer
+
 	)
 # install gtest
 cd $RD_LIB_PATH

@@ -24,6 +24,8 @@ function insertBeforeLine # file line newText
    sudo sed -i -e "/^$line$/i"$'\\\n'"$newText"$'\n' "$file"
 }
 
-# insertBefore /opt/ros/indigo/bin/catkin_find 'from catkin.find_in_workspaces import find_in_workspaces' "sys.path.append('/opt/ros/indigo/lib/python2.7/dist-packages')"
+# insert a ros python path fix
+insertBeforeLine /opt/ros/indigo/bin/catkin_find 'from catkin.find_in_workspaces import find_in_workspaces'\
+ "sys.path.append('/opt/ros/indigo/lib/python2.7/dist-packages')"
 # pwd
 # sudo sed -i  "/from catkin.find_in_workspaces import find_in_workspaces/asys.path.append('/opt/ros/indigo/lib/python2.7/dist-packages')\n" "/opt/ros/indigo/bin/catkin_find"

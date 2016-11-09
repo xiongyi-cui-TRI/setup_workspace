@@ -104,6 +104,8 @@ echo alias gitpruneRemote="'git fetch origin --prune'" >> ~/.bashrc
 # this is to auto start/stop robot launch file
 echo alias startRobotRoslaunch="'${RD_SETUP_SCRIPT_PATH}/dev/start-auto-roslaunch.sh start'" >> ~/.bashrc
 echo alias stopRobotRoslaunch="'${RD_SETUP_SCRIPT_PATH}/dev/start-auto-roslaunch.sh stop'" >> ~/.bashrc
+ROS_EXPORT_VAR='export ROSCONSOLE_FORMAT='"'"'[${severity}] [${time} ${file} ${line}]: ${message}'"'"
+echo "$ROS_EXPORT_VAR" >> ~/.bashrc
 echo '########## system_setup.bash  END' >> ~/.bashrc
 source ~/.bashrc
 
@@ -111,4 +113,5 @@ cd ${RD_LIB_PATH}
 git clone https://github.com/cuixiongyi/setup_workspace.git
 ./${RD_SETUP_SCRIPT_PATH}/install-vendor-library.sh
 ./${RD_SETUP_SCRIPT_PATH}/dev/download-repo.sh
+${RD_SETUP_SCRIPT_PATH}/scripts/insertToFile.sh
 

@@ -13,6 +13,9 @@
 ## this is the new line
 ## baz
 
+# $1 is file to be edited
+# $2 is the line looking for
+# $3 is the text to be inserted
 function insertAfterLine # file line newText
 {
    local file="$1" line="$2" newText="$3"

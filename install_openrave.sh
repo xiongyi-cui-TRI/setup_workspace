@@ -6,8 +6,10 @@ sudo add-apt-repository "deb-src http://ppa.launchpad.net/openrave/testing/ubunt
 
 # git clone –branch latest_stable https://github.com/rdiankov/openrave.git
 
-sudo apt-get install collada-dom2.4-dp*
-sudo apt-get install ros-indigo-openrave
+sudo apt-get install -y collada-dom2.4-dp*
+sudo apt-get install -y ros-indigo-openrave
+sudo apt-get install -y ros-indigo-moveit-ikfast
+
 
 PYTHONPATH=$PYTHONPATH:`openrave-config --python-dir`
 

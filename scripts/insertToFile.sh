@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # reference http://stackoverflow.com/questions/13316437/insert-lines-in-a-file-starting-from-a-specific-line
 
 

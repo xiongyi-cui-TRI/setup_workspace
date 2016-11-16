@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 gIf_Round_Collada_Numbers=false
 gURDFFileFull=""
 gURDFFilePath=""

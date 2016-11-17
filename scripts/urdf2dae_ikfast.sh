@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# reference http://docs.ros.org/indigo/api/moveit_tutorials/html/doc/ikfast_tutorial.html
 gIf_Round_Collada_Numbers=false
 gURDFFileFull=""
 gURDFFilePath=""
@@ -10,6 +11,7 @@ gDAEFileNameExt=""
 gDAEFileNameRoundExt=""
 
 gProjName=""
+gRobotName=""
 
 
 gWorkingDir="/tmp/urdf2dae"
@@ -19,6 +21,36 @@ gOrigDir=`pwd`
 # to display .dae robot in openrave
 # openrave *.dae
 
+# generate IKFast cpp from DAE file
+# example:
+#   generateIKFastFromDAE ${gDAEFileNameExt} ${baselink} ${eelink} \
+#       ${freeindexParam} ${IKcppName}
+function generateIKFastFromDAE()
+{
+    local lDAEFileNameExt=$1
+    local lbaselink=$2
+    local leelink=$3
+    local lFreeindexParam=$4
+    local lIKcpp_Name=$5
+    python `openrave-config --python-dir`/openravepy/_openravepy_/ikfast.py \
+		--robot=${lDAEFileNameExt} --iktype=transform6d --baselink=${lbaselink} \
+		--eelink=${leelink} ${lFreeindexParam} --savefile=${lIKcpp_Name}
+}
+
+# usage:
+# createIKFastPluginROSPackage ${gProjName}
+#   ${RobotName} ${planningGroupName} ${rosIKPackageName} ${ikfast_cpp_file}
+
+function createIKFastPluginROSPackage()
+{
+    local RobotName=$1
+    local planningGroupName=$2
+    local rosIKPackageName=$3
+    local ikfast_cpp_file=$4
+    rosrun moveit_ikfast create_ikfast_moveit_plugin.py \
+		${RobotName} ${planningGroupName} ${rosIKPackageName} ${ikfast_cpp_file}
+
+}
 function usage()
 {
     if [ "$1." != "." ]; then
@@ -57,11 +89,12 @@ while getopts ":u:r" FLAG; do
 			gURDFFilePath=$(dirname "${gURDFFileFull}")
 	    	echo "gURDFFilePath: 	$gURDFFilePath"
 
-			gDAEFileName=$gURDFFileName
+			gDAEFileName=${gURDFFileName}
 			gDAEFileNameExt="${gDAEFileName}.dae"
 			gDAEFileNameRoundExt="${gDAEFileName}.round.dae"
 
-			gProjName=$gURDFFileName
+			gProjName=${gURDFFileName}
+			gRobotName=${gProjName}
 		else
 			echo "urdf file, $gURDFFileName doesn't exist"
 			usage
@@ -79,6 +112,10 @@ while getopts ":u:r" FLAG; do
     esac
 done
 
+# main
+if [[ -z $gURDFFileFull ]]; then
+    usage
+fi
 
 # rm -rf $gWorkingDir
 mkdir -p $gWorkingDir
@@ -133,28 +170,34 @@ pushd $gWorkingDir
 		# --eelink=${eelink} ${freeindexParam} --savefile="${gURDFFilePath}/${gURDFFileName}_ik.cpp"
 
 	IKcppName=${gProjName}_ik.cpp
-	python `openrave-config --python-dir`/openravepy/_openravepy_/ikfast.py \
-		--robot=${gDAEFileNameExt} --iktype=transform6d --baselink=${baselink} \
-		--eelink=${eelink} ${freeindexParam} --savefile=${IKcppName}
-	
+	IKRoundcppName=${gProjName}_round_ik.cpp
+#    generateIKFastFromDAE ${gDAEFileNameExt} ${baselink} ${eelink} \
+#        ${freeindexParam} ${IKcppName}
+#    generateIKFastFromDAE ${gDAEFileNameRoundExt} ${baselink} ${eelink} \
+#        ${freeindexParam} ${IKRoundcppName}
 	echo -e "\nstart to create IK package\n"
-	`yhome`
+	yhome
+	echo "change work dir to $PWD"
+
+	ikfast_cpp_file=${gWorkingDir}/${IKcppName}
+	ikfast_round_cpp_file=${gWorkingDir}/${IKRoundcppName}
 
 	planningGroup=""
-	rosIKPackageName=${gProjName}_ikfast_plugin
-	ikfast_cpp_file=${gWorkingDir}/${IKcppName}
-	moveitConfigPackageName=""
-
 	echo -n "Enter planningGroup in moveit SRDF and press [ENTER]: "
 	read planningGroup
 
-	echo -n "Enter moveitConfigPackageName, remove the  and press [ENTER]: "
-	read planningGroup
-
+    rosIKPackageName=${gProjName}_ikfast_plugin
+	rosIKRoundPackageName=${gProjName}_ikfast_round_plugin
 	catkin_create_pkg ${rosIKPackageName}
-	rosrun moveit_ikfast create_ikfast_moveit_plugin.py \
-		${gProjName} ${gProjName} ${rosIKPackageName} ${ikfast_cpp_file}
+	catkin_create_pkg ${rosIKRoundPackageName}
+	ymake
 
+	createIKFastPluginROSPackage ${gRobotName} \
+	    ${planningGroup} ${rosIKPackageName} ${ikfast_cpp_file}
+
+    createIKFastPluginROSPackage ${gRobotName} \
+	    ${planningGroup} ${rosIKRoundPackageName} ${ikfast_round_cpp_file}
+	ymake
 
 popd
 

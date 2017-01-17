@@ -1,4 +1,4 @@
-
+sudo mkdir -p /var/log/
 sudo chmod -R 555 /var/log/
 
 # get path of this script,
@@ -59,7 +59,7 @@ sudo apt-get install -y ros-indigo-visualization-msgs
 
 
 #install moveit
-sudo apt-get install -y ros-indigo-moveit-full
+sudo apt-get install -y ros-indigo-moveit
 sudo apt-get install -y ros-indigo-tf2-geometry-msgs
 
 # nlopt, needed by trac ik

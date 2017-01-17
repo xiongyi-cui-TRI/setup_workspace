@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # reference http://docs.ros.org/indigo/api/moveit_tutorials/html/doc/ikfast_tutorial.html
 gIf_Round_Collada_Numbers=false
+gIf_Generate_DAE=false
 gURDFFileFull=""
 gURDFFilePath=""
 gURDFFileName=""
@@ -17,6 +18,14 @@ gRobotName=""
 gWorkingDir="/tmp/urdf2dae"
 gOrigDir=`pwd`
 
+function ymake
+{
+	catkin_make -j3 install -DCMAKE_INSTALL_PREFIX:PATH= -C ${RD_ROS_WORKSPACE} -DCMAKE_BUILD_TYPE=Debug 
+}
+function yhome
+{
+	cd ${RD_ROS_WORKSPACE}/src/
+}
 
 # to display .dae robot in openrave
 # openrave *.dae
@@ -62,6 +71,7 @@ usage:$0 OPTION
 
 OPTIONS:
  -u <robot.urdf>	input the urdf file
+ -g 				generate DAE and IK.cpp
 
 EOF
     exit -1
@@ -102,6 +112,9 @@ while getopts ":u:r" FLAG; do
 	    ;;
 	r) 
 	    gIf_Round_Collada_Numbers=true
+	    ;;
+    g) 
+	    gIf_Generate_DAE=true
 	    ;;
 	\?) 
 	    usage
@@ -171,9 +184,12 @@ pushd $gWorkingDir
 
 	IKcppName=${gProjName}_ik.cpp
 	IKRoundcppName=${gProjName}_round_ik.cpp
-#    generateIKFastFromDAE ${gDAEFileNameExt} ${baselink} ${eelink} \
-#        ${freeindexParam} ${IKcppName}
-#    generateIKFastFromDAE ${gDAEFileNameRoundExt} ${baselink} ${eelink} \
+	if [[ gIf_Generate_DAE -eq "true" ]]; then
+		generateIKFastFromDAE ${gDAEFileNameExt} ${baselink} ${eelink} \
+       ${freeindexParam} ${IKcppName}
+	fi
+   
+   # generateIKFastFromDAE ${gDAEFileNameRoundExt} ${baselink} ${eelink} \
 #        ${freeindexParam} ${IKRoundcppName}
 	echo -e "\nstart to create IK package\n"
 	yhome
@@ -190,14 +206,14 @@ pushd $gWorkingDir
 	rosIKRoundPackageName=${gProjName}_ikfast_round_plugin
 	catkin_create_pkg ${rosIKPackageName}
 	catkin_create_pkg ${rosIKRoundPackageName}
-	ymake
+	ymake | grep ikfast
 
 	createIKFastPluginROSPackage ${gRobotName} \
 	    ${planningGroup} ${rosIKPackageName} ${ikfast_cpp_file}
 
     createIKFastPluginROSPackage ${gRobotName} \
 	    ${planningGroup} ${rosIKRoundPackageName} ${ikfast_round_cpp_file}
-	ymake
+	ymake | grep ikfast
 
 popd
 

@@ -60,6 +60,7 @@ sudo apt-get install -y ros-indigo-visualization-msgs
 
 #install moveit
 sudo apt-get install -y ros-indigo-moveit-full
+sudo apt-get install -y ros-indigo-moveit
 sudo apt-get install -y ros-indigo-tf2-geometry-msgs
 
 # nlopt, needed by trac ik
@@ -117,15 +118,20 @@ echo source ${ROS_ROOT_PATH}/setup.bash >> ~/.bashrc
 echo source ${RD_ROS_WORKSPACE}/devel/setup.bash >> ~/.bashrc
 
 echo alias yhome="'cd ${RD_ROS_WORKSPACE}/src/'" >> ~/.bashrc
+echo "yhome()
+{
+cd ${RD_ROS_WORKSPACE}/src/
+}
+" >> ~/.bashrc
 echo alias ymake="'catkin_make install -DCMAKE_INSTALL_PREFIX:PATH=$ROS_WORKSPACE_INSTALL_PATH -C ${RD_ROS_WORKSPACE} -DCMAKE_BUILD_TYPE=Debug'" >> ~/.bashrc
 echo alias ymakerelease="'catkin_make install -DCMAKE_INSTALL_PREFIX:PATH=$ROS_WORKSPACE_INSTALL_PATH -C ${RD_ROS_WORKSPACE} -DCMAKE_BUILD_TYPE=Release'" >> ~/.bashrc
 echo alias ytest="'(yhome && cd ../build/ && ctest)'" >> ~/.bashrc
 
 echo alias rhome="'cd ${RD_LIB_PATH}/RD_FreeCAD'" >> ~/.bashrc
-echo alias rmake="'(rhome && cd build && cmake .. -DCMAKE_INSTALL_PREFIX:PATH=./install/ -DCMAKE_BUILD_TYPE=Debug && make -j7)'" >> ~/.bashrc
+echo alias rmake="'(rhome && cd build && cmake .. -DCMAKE_INSTALL_PREFIX:PATH=./install/ -DCMAKE_BUILD_TYPE=Debug && make -j6)'" >> ~/.bashrc
 # fast rmake do not reconfig cmake, will not work if add new files or any changes to cmake
-echo alias frmake="'(rhome && cd build && make -j7 -f CMakeFiles/Makefile2)'" >> ~/.bashrc
-echo alias rmakerelease="'(rhome && cd build && cmake .. -DCMAKE_INSTALL_PREFIX:PATH=./install/ -DCMAKE_BUILD_TYPE=Release && make -j7)'" >> ~/.bashrc
+echo alias frmake="'(rhome && cd build && make -j6 -f CMakeFiles/Makefile2)'" >> ~/.bashrc
+echo alias rmakerelease="'(rhome && cd build && cmake .. -DCMAKE_INSTALL_PREFIX:PATH=./install/ -DCMAKE_BUILD_TYPE=Release && make -j6)'" >> ~/.bashrc
 echo alias clion-keyboard-fix="'killall -9 ibus-x11'" >> ~/.bashrc
 echo alias gitpruneRemote="'git fetch origin --prune'" >> ~/.bashrc
 # this is to auto start/stop robot launch file
@@ -138,7 +144,7 @@ source ~/.bashrc
 
 cd ${RD_LIB_PATH}
 git clone https://github.com/cuixiongyi/setup_workspace.git
-./${RD_SETUP_SCRIPT_PATH}/install-vendor-library.sh
-./${RD_SETUP_SCRIPT_PATH}/dev/download-repo.sh
-${RD_SETUP_SCRIPT_PATH}/scripts/insertToFile.sh
+sh ${RD_SETUP_SCRIPT_PATH}/install-vendor-library.sh
+sh ${RD_SETUP_SCRIPT_PATH}/dev/download-repo.sh
+sh ${RD_SETUP_SCRIPT_PATH}/scripts/insertToFile.sh
 

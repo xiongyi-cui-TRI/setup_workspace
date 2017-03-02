@@ -37,8 +37,8 @@ make install
 mkdir -p /tmp/rdlogs/
 cd ~/library
 git clone git@github.com:RedDragon-Tech/rlog.git
-git checkout origin/rd_customize
 cd rlog
+git checkout origin/rd_customize
 mkdir build
 cd build
 cmake .. -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=${RD_LIB_VENDOR_PATH} -DCMAKE_BUILD_TYPE=Release

@@ -7,15 +7,27 @@ sudo pip install watchdog
 # install clang
 (
 # clang
-sudo apt-get install -y clang-3.8 clang-format-3.8 
-# address sanitizer need 
-echo "export ASAN_SYMBOLIZER_PATH=/usr/bin/llvm-symbolizer" >> ~/.bashrc
+clangVERSION="4.0"
+echo installing clang-${clangVERSION}
+srcDir="/etc/apt/sources.list.d/clang"
+sudo rm -rf ${srcDir}
+sudo mkdir -p ${srcDir}
+sudo echo "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-${clangVERSION} main
+deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-${clangVERSION} main" \
+| sudo tee --append ${srcDir}/clang.list > /dev/null
+sudo apt-get update
 
+sudo apt-get install -y clang-${clangVERSION} clang-format-${clangVERSION} \
+ libfuzzer-${clangVERSION}-dev
+
+
+sudo rm -rf /usr/bin/llvm-symbolizer
 
 # to make Adress Sanitizer print line number
 # http://stackoverflow.com/questions/38079761/why-does-asan-symbolizer-path-no-longer-work-with-version-adorned-binaries
 exportPath 'export ASAN_SYMBOLIZER_PATH=/usr/bin/llvm-symbolizer'
-sudo ln -s /usr/bin/llvm-symbolizer-3.8 /usr/bin/llvm-symbolizer
+sudo ln -s /usr/bin/llvm-symbolizer-${clangVERSION} /usr/bin/llvm-symbolizer
+
 
 	)
 # install gtest

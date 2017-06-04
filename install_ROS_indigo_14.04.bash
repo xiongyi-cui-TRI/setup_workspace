@@ -14,6 +14,7 @@ gInsertToFileScript="$gScriptPath/insertToFile.sh"
 gInsertFunctionToBash="$gScriptPath/insertFunctionToBash.sh"
 source ${gInsertToFileScript}
 source ${gInsertFunctionToBash}
+source ${gScriptPath}/install_ubuntu.bash
 
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net --recv-key 0xB01FA116
@@ -121,6 +122,11 @@ echo "yhome()
 cd ${RD_ROS_WORKSPACE}/src/
 }
 " >> ~/.bashrc
+echo 'lhome()
+{
+cd ${RD_LIB_PATH}/src/
+}
+' >> ~/.bashrc
 echo alias ymake="'catkin_make install -DCMAKE_INSTALL_PREFIX:PATH=$ROS_WORKSPACE_INSTALL_PATH -C ${RD_ROS_WORKSPACE} -DCMAKE_BUILD_TYPE=Debug'" >> ~/.bashrc
 echo alias ymakerelease="'catkin_make install -DCMAKE_INSTALL_PREFIX:PATH=$ROS_WORKSPACE_INSTALL_PATH -C ${RD_ROS_WORKSPACE} -DCMAKE_BUILD_TYPE=Release'" >> ~/.bashrc
 echo alias ytest="'(yhome && cd ../build/ && ctest)'" >> ~/.bashrc
@@ -141,7 +147,6 @@ echo '########## system_setup.bash  END' >> ~/.bashrc
 source ~/.bashrc
 
 cd ${RD_LIB_PATH}
-git clone https://github.com/cuixiongyi/setup_workspace.git
 sh ${RD_SETUP_SCRIPT_PATH}/install-vendor-library.sh
 sh ${RD_SETUP_SCRIPT_PATH}/dev/download-repo.sh
 sh ${RD_SETUP_SCRIPT_PATH}/scripts/insertToFile.sh

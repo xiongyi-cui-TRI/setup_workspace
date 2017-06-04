@@ -7,7 +7,7 @@ sudo pip install watchdog
 # install clang
 (
 # clang
-clangVERSION="4.0"
+clangVERSION="3.8"
 echo installing clang-${clangVERSION}
 srcDir="/etc/apt/sources.list.d/clang"
 sudo rm -rf ${srcDir}
@@ -27,9 +27,7 @@ sudo rm -rf /usr/bin/llvm-symbolizer
 # http://stackoverflow.com/questions/38079761/why-does-asan-symbolizer-path-no-longer-work-with-version-adorned-binaries
 exportPath 'export ASAN_SYMBOLIZER_PATH=/usr/bin/llvm-symbolizer'
 sudo ln -s /usr/bin/llvm-symbolizer-${clangVERSION} /usr/bin/llvm-symbolizer
-
-
-	)
+)
 # install gtest
 cd $RD_LIB_PATH
 
@@ -40,7 +38,7 @@ cd googletest/
 mkdir build
 cd build
 cmake .. -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=${RD_LIB_VENDOR_PATH} -DCMAKE_BUILD_TYPE=Release
-make -j7
+make -j6
 make install
 )
 
@@ -54,7 +52,7 @@ git checkout origin/rd_customize
 mkdir build
 cd build
 cmake .. -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=${RD_LIB_VENDOR_PATH} -DCMAKE_BUILD_TYPE=Release
-make -j7
+make -j6
 make install
 )
 

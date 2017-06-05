@@ -41,6 +41,8 @@ sudo apt-get install -y python-wstool
 sudo apt-get install -y xclip
 sudo apt-get install -y sshpass
 sudo apt-get install -y python-setuptools
+sudo apt-get install python-pip
+sudo pip install Plumbum
 
 # install openrave-ikfast
 # reference http://docs.ros.org/jade/api/moveit_ikfast/html/doc/ikfast_tutorial.html
@@ -147,6 +149,7 @@ echo '########## system_setup.bash  END' >> ~/.bashrc
 source ~/.bashrc
 
 cd ${RD_LIB_PATH}
+sh ${RD_SETUP_SCRIPT_PATH}/install-gcc6.sh
 sh ${RD_SETUP_SCRIPT_PATH}/install-vendor-library.sh
 sh ${RD_SETUP_SCRIPT_PATH}/dev/download-repo.sh
 sh ${RD_SETUP_SCRIPT_PATH}/scripts/insertToFile.sh

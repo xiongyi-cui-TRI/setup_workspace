@@ -7,6 +7,6 @@ mkdir build
 )
 
 (
-	`yhome`
+	cd ~/workspace/src
 	git clone git@github.com:RedDragon-Tech/RD_RobotPlanning.git
 )

@@ -117,12 +117,12 @@ echo source ${ROS_ROOT_PATH}/setup.bash >> ~/.bashrc
 echo source ${RD_ROS_WORKSPACE}/devel/setup.bash >> ~/.bashrc
 
 echo alias yhome="'cd ${RD_ROS_WORKSPACE}/src/'" >> ~/.bashrc
-echo "yhome()
+echo 'function yhome()
 {
 cd ${RD_ROS_WORKSPACE}/src/
 }
-" >> ~/.bashrc
-echo 'lhome()
+' >> ~/.bashrc
+echo 'function  lhome()
 {
 cd ${RD_LIB_PATH}/src/
 }

@@ -41,7 +41,7 @@ sudo apt-get install -y python-wstool
 sudo apt-get install -y xclip
 sudo apt-get install -y sshpass
 sudo apt-get install -y python-setuptools
-sudo apt-get install python-pip
+sudo apt-get install -y python-pip
 sudo pip install Plumbum
 
 # install openrave-ikfast

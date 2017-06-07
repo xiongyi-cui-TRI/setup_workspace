@@ -9,4 +9,5 @@ mkdir build
 (
 	cd ~/workspace/src
 	git clone git@github.com:RedDragon-Tech/RD_RobotPlanning.git
+	git clone git@github.com:RedDragon-Tech/robotmodel_moveit.git
 )

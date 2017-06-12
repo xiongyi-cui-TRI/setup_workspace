@@ -150,7 +150,7 @@ echo '########## system_setup.bash  END' >> ~/.bashrc
 source ~/.bashrc
 
 cd ${RD_LIB_PATH}
-sh ${RD_SETUP_SCRIPT_PATH}/install-gcc6.sh
+sh ${RD_SETUP_SCRIPT_PATH}/install_gcc6.sh
 sh ${RD_SETUP_SCRIPT_PATH}/install-vendor-library.sh
 sh ${RD_SETUP_SCRIPT_PATH}/dev/download-repo.sh
 sh ${RD_SETUP_SCRIPT_PATH}/scripts/insertToFile.sh

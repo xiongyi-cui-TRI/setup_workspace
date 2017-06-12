@@ -15,6 +15,8 @@ gInsertFunctionToBash="$gScriptPath/insertFunctionToBash.sh"
 source ${gInsertToFileScript}
 source ${gInsertFunctionToBash}
 source ${gScriptPath}/install_ubuntu.bash
+RD_PATH_FILE=~/rd_path.sh
+ROS_PATH_FILE=~/ros_indigo_path.sh
 
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net --recv-key 0xB01FA116
@@ -43,7 +45,8 @@ sudo apt-get install -y openssh-server
 sudo apt-get install -y sshpass
 sudo apt-get install -y python-setuptools
 sudo apt-get install -y python-pip
-sudo pip install Plumbum
+sudo apt-get install --force-yes python3-pip
+sudo pip3 install Plumbum
 
 # install openrave-ikfast
 # reference http://docs.ros.org/jade/api/moveit_ikfast/html/doc/ikfast_tutorial.html
@@ -153,5 +156,6 @@ cd ${RD_LIB_PATH}
 sh ${RD_SETUP_SCRIPT_PATH}/install_gcc6.sh
 sh ${RD_SETUP_SCRIPT_PATH}/install-vendor-library.sh
 sh ${RD_SETUP_SCRIPT_PATH}/dev/download-repo.sh
-sh ${RD_SETUP_SCRIPT_PATH}/scripts/insertToFile.sh
+# python path problem was solved in FreeCAD
+# sh ${RD_SETUP_SCRIPT_PATH}/scripts/insertToFile.sh
 

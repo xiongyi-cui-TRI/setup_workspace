@@ -47,6 +47,7 @@ sudo apt-get install -y python-setuptools
 sudo apt-get install -y python-pip
 sudo apt-get install --force-yes python3-pip
 sudo pip3 install Plumbum
+sudo pip3 install backtrace
 
 # install openrave-ikfast
 # reference http://docs.ros.org/jade/api/moveit_ikfast/html/doc/ikfast_tutorial.html

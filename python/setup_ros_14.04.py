@@ -1,6 +1,7 @@
 from export_path import *
 from apt_get import *
 from cmdUtil import *
+from plumbum.cmd import ls
 import backtrace
 
 backtrace.hook(
@@ -20,13 +21,22 @@ RD_COMMAND_FILE=homeDir+'rd_command.sh'
 class Install_ROS:
     def __init__(self):
 
-    def configDebianRepo(self):
-        # this two are the same, at least for indigo and Kinetic
-        os.system("sudo sh -c 'echo \"deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main\"\
-         > /etc/apt/sources.list.d/ros-latest.list'")
-        os.system("sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 \
-            --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116")
-        os.system("sudo apt-get update")
+    # this repo config are the same, at least for indigo and Kinetic
+    def configDebianRepo(forceAptgetUpdate=false):
+        repoFile = '/etc/apt/sources.list.d/ros-latest.list'
+        try:
+            # if the file exist do nothing
+            ls[repoFile].run()
+        except:
+            # if the file doens't exist, create file and update
+            os.system("sudo sh -c 'echo \"deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main\"\
+             > "+repoFile"'")
+            os.system("sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 \
+                --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116")
+            os.system("sudo apt-get update")
+        if forceAptgetUpdate:
+            os.system("sudo apt-get update")
+
 
     # rosDistro is ros distribution name (lower case), indigo, kinetic 
     def run(self, rosDistro='indigo'):

@@ -1,5 +1,6 @@
 from os.path import expanduser
 from os import system
+import multiprocessing
 
 home = expanduser("~")
 homeDir = home + '/'
@@ -30,6 +31,23 @@ def exportRD_Path():
 
     writeVecToFile(RD_PATH_FILE, rd_path)
     appendSourceToBashrc(RD_PATH_FILE)
+
+def getCPUCount():
+    import multiprocessing
+    return multiprocessing.cpu_count()
+def getMaxBuildThread():
+    cpuCount = getCPUCount()
+    if n <= 2:
+        n = 1
+    elif n <= 4:
+        n = 2;
+    elif n <= 8:
+        n = 6
+    else
+        n = n - 3 
+    if n < 1:
+        n = 1
+    return n
 
 def exportRD_Command():
     rd_command = []

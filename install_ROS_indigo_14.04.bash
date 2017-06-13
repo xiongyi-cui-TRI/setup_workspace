@@ -59,20 +59,12 @@ insertAfterLine "/usr/lib/python2.7/dist-packages/openravepy/__init__.py" \
 sudo easy_install pip
 
 # install ros
-sudo apt-get install -y ros-indigo-desktop-full
-sudo apt-get install -y ros-indigo-shape-msgs
-sudo apt-get install -y ros-indigo-visualization-msgs
 
-
-#install moveit
-sudo apt-get install -y ros-indigo-moveit-full
-sudo apt-get install -y ros-indigo-moveit
-sudo apt-get install -y ros-indigo-tf2-geometry-msgs
 
 # nlopt, needed by trac ik
 sudo apt-get install -y libnlopt-dev
 
-sudo apt-get install -y cmake python-catkin-pkg python-empy python-nose python-setuptools libgtest-dev build-essential
+sudo apt-get install -y cmake  libgtest-dev 
 sudo apt-get install -y ros-indigo-catkin
 
 source /opt/ros/indigo/setup.bash
@@ -105,35 +97,12 @@ exportPath 'export RD_LOG_DIR=/var/rd-logs'
 sudo mkdir -p $RD_LOG_DIR
 sudo chmod 777 -R $RD_LOG_DIR
 
-exportPath 'export RD_SETUP_SCRIPT_PATH=${RD_LIB_PATH}/setup_workspace'
-
-exportPath 'export RD_LIB_VENDOR_PATH=~/library/rdlib/'
-
-exportPath 'export ROS_ROOT_PATH=/opt/ros/indigo/'
-
-exportPath 'export ROS_WORKSPACE_INSTALL_PATH=${RD_ROS_WORKSPACE}/install/'
-
-exportPath 'export ROS_PACKAGE_PATH=${RD_ROS_WORKSPACE}/src/:${ROS_ROOT_PATH}/share:$ROS_PACKAGE_PATH'
-
-exportPath 'export RD_ROBOT_ROSLAUNCH_CONFIG_FILE=rd_robot_roslaunch.config'
-exportPath 'export RD_ROBOT_ROSLAUNCH_CONFIG_FILE_FULLPATH=$RD_SYSTEM_CONFIG_DIR/rd_robot_roslaunch.config'
 
 echo '########## system_setup.bash  START' >> ~/.bashrc
 
 echo source ${ROS_ROOT_PATH}/setup.bash >> ~/.bashrc
 echo source ${RD_ROS_WORKSPACE}/devel/setup.bash >> ~/.bashrc
 
-echo alias yhome="'cd ${RD_ROS_WORKSPACE}/src/'" >> ~/.bashrc
-echo 'function yhome()
-{
-cd ${RD_ROS_WORKSPACE}/src/
-}
-' >> ~/.bashrc
-echo 'function  lhome()
-{
-cd ${RD_LIB_PATH}/src/
-}
-' >> ~/.bashrc
 echo alias ymake="'catkin_make install -DCMAKE_INSTALL_PREFIX:PATH=$ROS_WORKSPACE_INSTALL_PATH -C ${RD_ROS_WORKSPACE} -DCMAKE_BUILD_TYPE=Debug'" >> ~/.bashrc
 echo alias ymakerelease="'catkin_make install -DCMAKE_INSTALL_PREFIX:PATH=$ROS_WORKSPACE_INSTALL_PATH -C ${RD_ROS_WORKSPACE} -DCMAKE_BUILD_TYPE=Release'" >> ~/.bashrc
 echo alias ytest="'(yhome && cd ../build/ && ctest)'" >> ~/.bashrc
@@ -150,6 +119,8 @@ echo alias startRobotRoslaunch="'${RD_SETUP_SCRIPT_PATH}/dev/start-auto-roslaunc
 echo alias stopRobotRoslaunch="'${RD_SETUP_SCRIPT_PATH}/dev/start-auto-roslaunch.sh stop'" >> ~/.bashrc
 ROS_EXPORT_VAR='export ROSCONSOLE_FORMAT='"'"'[${severity}] [${time} ${file} ${line}]: ${message}'"'"
 echo "$ROS_EXPORT_VAR" >> ~/.bashrc
+
+python3 setup_indigo_14.04.py
 echo '########## system_setup.bash  END' >> ~/.bashrc
 source ~/.bashrc
 

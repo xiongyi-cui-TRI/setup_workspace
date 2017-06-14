@@ -4,19 +4,25 @@ import multiprocessing
 
 home = expanduser("~")
 homeDir = home + '/'
+BASHRC_FILE = homeDir + '.bashrc'
+RD_PATH_FILE = homeDir + 'rd_setup.sh'
+RD_COMMAND_FILE = homeDir + 'rd_command.sh'
 
 
 def appendToFile(file, string):
     with open(file, "a") as myfile:
         myfile.write(string)
 
-def appendSourceToBashrc(sourceFile):
+
+def appendSourcingFileToBashrc(sourceFile):
     appendToFile(BASHRC_FILE, 'source ' + sourceFile + '\n')
+
 
 def writeVecToFile(filename, vecStr):
     file = open(filename, 'w')
     for s in vecStr:
-        file.write(s+'\n')
+        file.write(s + '\n')
+
 
 def exportRD_Path():
     rd_path = []
@@ -24,30 +30,34 @@ def exportRD_Path():
     rd_path.append('export RD_LIB_PATH=~/library/')
     rd_path.append('export RD_SYSTEM_CONFIG_DIR=/var/rd-config')
     rd_path.append('export RD_LOG_DIR=/var/rd-logs')
-    rd_path.append('export RD_SETUP_SCRIPT_PATH=${RD_LIB_PATH}/setup_workspace')
+    rd_path.append(
+        'export RD_SETUP_SCRIPT_PATH=${RD_LIB_PATH}/setup_workspace')
     rd_path.append('export RD_LIB_VENDOR_PATH=~/library/rdlib/')
-    rd_path.append('export RD_ROBOT_ROSLAUNCH_CONFIG_FILE=rd_robot_roslaunch.config')
-    rd_path.append('export RD_ROBOT_ROSLAUNCH_CONFIG_FILE_FULLPATH=$RD_SYSTEM_CONFIG_DIR/rd_robot_roslaunch.config')
+    rd_path.append(
+        'export RD_ROBOT_ROSLAUNCH_CONFIG_FILE=rd_robot_roslaunch.config')
+    rd_path.append(
+        'export RD_ROBOT_ROSLAUNCH_CONFIG_FILE_FULLPATH=$RD_SYSTEM_CONFIG_DIR/rd_robot_roslaunch.config'
+    )
 
     writeVecToFile(RD_PATH_FILE, rd_path)
-    appendSourceToBashrc(RD_PATH_FILE)
+    appendSourcingFileToBashrc(RD_PATH_FILE)
+
 
 def getCPUCount():
     import multiprocessing
     return multiprocessing.cpu_count()
+
+
 def getMaxBuildThread():
-    cpuCount = getCPUCount()
-    if n <= 2:
+    n = getCPUCount()
+    if n <= 3:
         n = 1
     elif n <= 4:
-        n = 2;
-    elif n <= 8:
-        n = 6
-    else
-        n = n - 3 
-    if n < 1:
-        n = 1
+        n = 2
+    else:
+        n = n - 3
     return n
+
 
 def exportRD_Command():
     rd_command = []
@@ -62,8 +72,8 @@ def exportRD_Command():
     function  lhome()
     {
     cd ${RD_LIB_PATH}/src/
-    }
+    }\n
     ''')
 
     writeVecToFile(RD_COMMAND_FILE, rd_command)
-    appendSourceToBashrc(RD_COMMAND_FILE)
+    appendSourcingFileToBashrc(RD_COMMAND_FILE)

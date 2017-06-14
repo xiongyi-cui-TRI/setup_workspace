@@ -40,9 +40,13 @@ sudo apt-get install -y openssh-server
 sudo apt-get install -y sshpass
 sudo apt-get install -y python-setuptools
 sudo apt-get install -y python-pip
-sudo apt-get install --force-yes python3-pip
+sudo apt-get install -y --force-yes python3-pip
+# used for python bash script
 sudo pip3 install Plumbum
+# used for pretty print backtrace
 sudo pip3 install backtrace
+# used for python code formating
+sudo pip3 install yapf
 
 # install openrave-ikfast
 # reference http://docs.ros.org/jade/api/moveit_ikfast/html/doc/ikfast_tutorial.html

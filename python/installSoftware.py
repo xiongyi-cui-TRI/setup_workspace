@@ -26,3 +26,10 @@ class chrome:
 
     def install():
         apt_get.apt_get_install('google-chrome-stable')
+
+if __name__ == '__main__':
+    sublime.configRepo()
+    chrome.configRepo()
+    apt_get.apt_get_update()
+    sublime.install()
+    chrome.install()

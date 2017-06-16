@@ -71,7 +71,7 @@ def exportRD_Command():
     rd_command.append('''
     function  lhome()
     {
-    cd ${RD_LIB_PATH}/src/
+    cd ${RD_LIB_PATH}/
     }\n
     ''')
 

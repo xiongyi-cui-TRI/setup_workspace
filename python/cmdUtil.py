@@ -15,6 +15,8 @@ backtrace.hook(
     conservative=False,
     styles={})
 
+mkdirp = mkdir['-p']
+
 #setup logging
 # assuming loglevel is bound to the string value obtained from the
 # command line argument. Convert to upper case to allow the user to
@@ -22,16 +24,17 @@ backtrace.hook(
 loglevel = 'INFO'
 numeric_level = getattr(logging, loglevel.upper(), None)
 if not isinstance(numeric_level, int):
-	# log WARNING by default
+    # log WARNING by default
     numeric_level = 20
 logging.basicConfig(filename='setup.log',level=numeric_level, format='%(asctime)s %(message)s',\
-	filemode='a')
+ filemode='a')
+
 
 # command.run() will return 3-tuple of the (exit code, stdout, and stderr)
 # this function is used to pretty print it
 def printCmdRunReturn(ret, cmd=None, successLog=None, failLog=None):
     log = logging.debug
-    
+
     success = ret[0] is 0
     if success:
         log = logging.error
@@ -51,4 +54,48 @@ def printCmdRunReturn(ret, cmd=None, successLog=None, failLog=None):
     log('=====================================')
 
 
-mkdirp = mkdir['-p']
+# return [ifReturnCodeIsZero, returnCode, stdout, stderr]
+# successed, ret, stdout, stderr = buildUtil.runCmd(pwd)
+def runCmd(cmd):
+    ret = ()
+    try:
+        ret = cmd.run(retcode=None)
+    except plumbum.commands.ProcessExecutionError as err:
+        log = logging.error
+        log('=====================================')
+        log(err)
+        log('stack brace: \n')
+        log(traceback.extract_stack())
+        log('=====================================')
+
+    # printCmdRunReturn(ret, cmd, failLog=True)
+    b = ret[0] is 0
+    # ret, stdout, stderr = ret
+    return (b, ret[0], ret[1].rstrip(), ret[2].rstrip())
+
+
+def getPWD():
+    successed, ret, stdout, stderr = runCmd(pwd)
+    return stdout.rstrip() + '/'
+
+
+def getFileNameListAtDir(dir):
+    successed, ret, stdout, stderr = runCmd(ls[dir])
+    if not successed:
+        return successed, []
+    return successed, stdout.split()
+
+
+def findFileInPathCond_FirstOnly(dir, cond):
+    successed, listOfFile = getFileNameListAtDir(dir)
+    ret = [False, '']
+    if not successed:
+        logging.fatal("can't ls dir at %s", dir)
+        return ret
+    for file in listOfFile:
+        if cond(file):
+            ret = [True, file]
+            break
+    else:
+        logging.fatal("can't find file satisfy condition at %s", dir)
+    return ret

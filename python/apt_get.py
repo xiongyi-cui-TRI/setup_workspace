@@ -5,12 +5,16 @@ import logging
 import traceback
 
 
+def apt_get_update():
+    cmd = sudo[apt_get['update']]
+    success, _ = cmdUtil.runCmd(cmd)
+
+
 def apt_get_install(packageName):
     if isinstance(packageName, (list, tuple, set)):
         for item in packageName:
             apt_get_install(item)
     else:
         cmd = sudo[apt_get['install', '-y', packageName]]
-        ret = cmd.run()
-        cmdUtil.printCmdRunReturn(
-            ret, cmd, successLog='installed package ' + packageName)
+        success, _ = cmdUtil.runCmd(cmd)
+        return success

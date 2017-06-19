@@ -57,9 +57,9 @@ def printCmdRunReturn(ret, cmd=None, successLog=None, failLog=None):
 # return [ifReturnCodeIsZero, returnCode, stdout, stderr]
 # successed, ret, stdout, stderr = buildUtil.runCmd(pwd)
 def runCmd(cmd):
-    ret = ()
+    ret = [False, -1, '', '']
     try:
-        ret = cmd.run(retcode=None)
+        cmdRet = cmd.run(retcode=None)
     except plumbum.commands.ProcessExecutionError as err:
         log = logging.error
         log('=====================================')
@@ -67,11 +67,11 @@ def runCmd(cmd):
         log('stack brace: \n')
         log(traceback.extract_stack())
         log('=====================================')
+        return ret
 
-    # printCmdRunReturn(ret, cmd, failLog=True)
-    b = ret[0] is 0
+    ret[0] = cmdRet[0] is 0
     # ret, stdout, stderr = ret
-    return (b, ret[0], ret[1].rstrip(), ret[2].rstrip())
+    return ret
 
 
 def getPWD():

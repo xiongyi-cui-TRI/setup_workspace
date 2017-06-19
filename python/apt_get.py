@@ -7,7 +7,8 @@ import traceback
 
 def apt_get_update():
     cmd = sudo[apt_get['update']]
-    success, _ = cmdUtil.runCmd(cmd)
+    ret = cmdUtil.runCmd(cmd)
+    return ret[0]
 
 
 def apt_get_install(packageName):
@@ -16,5 +17,6 @@ def apt_get_install(packageName):
             apt_get_install(item)
     else:
         cmd = sudo[apt_get['install', '-y', packageName]]
-        success, _ = cmdUtil.runCmd(cmd)
-        return success
+        ret = cmdUtil.runCmd(cmd)
+        return ret[0]
+

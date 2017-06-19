@@ -27,9 +27,25 @@ class chrome:
     def install():
         apt_get.apt_get_install('google-chrome-stable')
 
+class simpleRecorder:
+    @staticmethod
+    def config():
+        os.system('sudo add-apt-repository ppa:maarten-baert/simplescreenrecorder')
+
+    @staticmethod
+    def install():
+        apt_get.apt_get_install('simplescreenrecorder')
+
+
+
+
 if __name__ == '__main__':
     sublime.configRepo()
     chrome.configRepo()
+    simpleRecorder.config()
+
     apt_get.apt_get_update()
+
     sublime.install()
     chrome.install()
+    simpleRecorder.install()

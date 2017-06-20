@@ -68,7 +68,7 @@ def runCmd(cmd):
         log(traceback.extract_stack())
         log('=====================================')
 
-    # printCmdRunReturn(ret, cmd, failLog=True)
+    printCmdRunReturn(ret, cmd)
     b = ret[0] is 0
     # ret, stdout, stderr = ret
     return (b, ret[0], ret[1].rstrip(), ret[2].rstrip())

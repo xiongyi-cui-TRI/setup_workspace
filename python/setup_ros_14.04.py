@@ -3,7 +3,7 @@ import apt_get
 import cmdUtil
 from plumbum.cmd import ls
 import backtrace
-
+import bashrc_helper
 backtrace.hook(
     reverse=False,
     align=False,
@@ -63,7 +63,15 @@ class Install_ROS:
         self.exportROS_Path(packList)
 
     def exportROS_Path(self):
+        export_path.exportRD_Path()
         ros_path = []
+        ros_path.append('# ROS EVN')
+        ros_path.append(
+            'export ROSCONSOLE_FORMAT=\'[${severity}] [${time} ${file} ${line}]: ${message}\''
+        )
+
+        ros_path.append('# ROS path: \n')
+
         ros_path.append('export ROS_ROOT_PATH=/opt/ros/' + self.rosDistro +
                         '/')
         ros_path.append(
@@ -76,6 +84,27 @@ class Install_ROS:
 
         export_path.writeVecToFile(self.ROS_PATH_FILE, ros_path)
         export_path.appendSourcingFileToBashrc(self.ROS_PATH_FILE)
+
+    def exportROS_bashCommand(self):
+        export_path.exportRD_Command()
+        ros_command = []
+        ros_command.append('# ROS commands: \n')
+        ros_command.append(
+            bashrc_helper.makeBashFunction('yhome',
+                                           'cd ${RD_ROS_WORKSPACE}/src/'))
+
+        ymakeCommand='catkin_make install -DCMAKE_INSTALL_PREFIX:PATH=$ROS_WORKSPACE_INSTALL_PATH ' \
+                     '-C ${RD_ROS_WORKSPACE} -DCMAKE_BUILD_TYPE={}' +export_path.getCMakeThreadParam()
+        ros_command.append(
+            bashrc_helper.makeBashFunction('ymake',
+                                           ymakeCommand.format('Debug')))
+        ros_command.append(
+            bashrc_helper.makeBashFunction('ymakerelease',
+                                           ymakeCommand.format('Release')))
+
+        ros_command.append(
+            bashrc_helper.makeBashFunction('ytest',
+                                           '(yhome && cd ../build/ && ctest)'))
 
 
 def main():

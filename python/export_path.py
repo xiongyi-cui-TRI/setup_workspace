@@ -1,27 +1,11 @@
-from os.path import expanduser
 from os import system
 import multiprocessing
+import cmdUtil
+import bashrc_helper
 
-home = expanduser("~")
-homeDir = home + '/'
-BASHRC_FILE = homeDir + '.bashrc'
+homeDir = cmdUtil.getHomeDir()
 RD_PATH_FILE = homeDir + 'rd_setup.sh'
 RD_COMMAND_FILE = homeDir + 'rd_command.sh'
-
-
-def appendToFile(file, string):
-    with open(file, "a") as myfile:
-        myfile.write(string)
-
-
-def appendSourcingFileToBashrc(sourceFile):
-    appendToFile(BASHRC_FILE, 'source ' + sourceFile + '\n')
-
-
-def writeVecToFile(filename, vecStr):
-    file = open(filename, 'w')
-    for s in vecStr:
-        file.write(s + '\n')
 
 
 def exportRD_Path():
@@ -39,8 +23,8 @@ def exportRD_Path():
         'export RD_ROBOT_ROSLAUNCH_CONFIG_FILE_FULLPATH=$RD_SYSTEM_CONFIG_DIR/rd_robot_roslaunch.config'
     )
 
-    writeVecToFile(RD_PATH_FILE, rd_path)
-    appendSourcingFileToBashrc(RD_PATH_FILE)
+    cmdUtil.writeVecToFile(RD_PATH_FILE, rd_path)
+    bashrc_helper.sourceFileInBashrc(RD_PATH_FILE)
 
 
 def getCPUCount():
@@ -59,21 +43,46 @@ def getMaxBuildThread():
     return n
 
 
+def getCMakeThreadParam():
+    return ' -j' + str(getMaxBuildThread())
+
+
 def exportRD_Command():
     rd_command = []
-    rd_command.append('''
-    function yhome()
-    {
-    cd ${RD_ROS_WORKSPACE}/src/
-    }\n
-    ''')
+    rd_command.append('# RD commands')
+    rd_command.append(
+        bashrc_helper.makeBashFunction('lhome', 'cd ${RD_LIB_PATH}/'))
+    rd_command.append(
+        bashrc_helper.makeBashFunction('rhome',
+                                       'cd ${RD_LIB_PATH}/RD_FreeCAD'))
+    rmakeCmd = '(rhome && cd build && cmake .. -DCMAKE_INSTALL_PREFIX:PATH=./install/ ' \
+               '-DCMAKE_BUILD_TYPE={} && make ' + getCMakeThreadParam() + ' )'
+    rd_command.append(
+        bashrc_helper.makeBashFunction('rmake', rmakeCmd.format('Debug')))
+    rd_command.append(
+        bashrc_helper.makeBashFunction('rmakerelease',
+                                       rmakeCmd.format('Release')))
+    rd_command.append(
+        bashrc_helper.makeBashFunction(
+            'frmake', '(rhome && cd build && make {} -f CMakeFiles/Makefile2)'
+            .format(getCMakeThreadParam())))
 
-    rd_command.append('''
-    function  lhome()
-    {
-    cd ${RD_LIB_PATH}/
-    }\n
-    ''')
+    rd_command.append(
+        bashrc_helper.makeBashFunction('clion-keyboard-fix',
+                                       'killall -9 ibus-x11'))
+    rd_command.append(
+        bashrc_helper.makeBashFunction('gitpruneRemote',
+                                       'git fetch origin --prune'))
 
-    writeVecToFile(RD_COMMAND_FILE, rd_command)
-    appendSourcingFileToBashrc(RD_COMMAND_FILE)
+    rd_command.append('# this is to auto start/stop robot launch file')
+    rd_command.append(
+        bashrc_helper.makeBashFunction(
+            'startRobotRoslaunch',
+            '${RD_SETUP_SCRIPT_PATH}/dev/start-auto-roslaunch.sh start'))
+    rd_command.append(
+        bashrc_helper.makeBashFunction(
+            'stopRobotRoslaunch',
+            '${RD_SETUP_SCRIPT_PATH}/dev/start-auto-roslaunch.sh stop'))
+
+    cmdUtil.writeVecToFile(RD_COMMAND_FILE, rd_command)
+    bashrc_helper.sourceFileInBashrc(RD_PATH_FILE)

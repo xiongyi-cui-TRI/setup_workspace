@@ -5,6 +5,8 @@ import traceback
 import sys
 # used for pretty print backtrace
 import backtrace
+from os.path import expanduser
+import collections
 
 backtrace.hook(
     reverse=False,
@@ -14,6 +16,11 @@ backtrace.hook(
     on_tty=False,
     conservative=False,
     styles={})
+
+
+def getHomeDir():
+    return expanduser("~") + '/'
+
 
 mkdirp = mkdir['-p']
 
@@ -26,17 +33,46 @@ numeric_level = getattr(logging, loglevel.upper(), None)
 if not isinstance(numeric_level, int):
     # log WARNING by default
     numeric_level = 20
-logging.basicConfig(filename='setup.log',level=numeric_level, format='%(asctime)s %(message)s',\
- filemode='a')
+format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+logging.basicConfig(
+    filename=getHomeDir() + 'syspy.log',
+    level=numeric_level,
+    format=format,
+    filemode='a')
+# logging._defaultFormatter.converter = time.localtime
+_rootLogger = logging.getLogger()
+
+_rootLogger.setLevel(loglevel)
+_ch = logging.StreamHandler(sys.stdout)
+_ch.setLevel(loglevel)
+formatter = logging.Formatter(format)
+_ch.setFormatter(formatter)
+_rootLogger.addHandler(_ch)
 
 
-# command.run() will return 3-tuple of the (exit code, stdout, and stderr)
+def logStart(log):
+    log('=====================================')
+
+
+# msg should be a list of string
+def logError(msg):
+    log = logging.error
+    if isinstance(msg, collections.Sequence):
+        logStart(log)
+        for m in msg:
+            log(m)
+        logStart(log)
+    else:
+        log(msg)
+
+
+# runCmd() will return 4-tuple of the (ifSucceeded, exit code, stdout, and stderr)
 # this function is used to pretty print it
 def printCmdRunReturn(ret, cmd=None, successLog=None, failLog=None):
     log = logging.debug
 
     success = ret[0] is 0
-    if success:
+    if not success:
         log = logging.error
     log('=====================================')
     if cmd is not None:
@@ -57,20 +93,26 @@ def printCmdRunReturn(ret, cmd=None, successLog=None, failLog=None):
 # return [ifReturnCodeIsZero, returnCode, stdout, stderr]
 # successed, ret, stdout, stderr = buildUtil.runCmd(pwd)
 def runCmd(cmd):
-    ret = [False, -1, '', '']
     try:
         cmdRet = cmd.run(retcode=None)
+        printCmdRunReturn(cmdRet, cmd=cmd)
     except plumbum.commands.ProcessExecutionError as err:
         log = logging.error
         log('=====================================')
+        log('exception thrown when run command: ')
+        log(cmd)
+        log('exception: ')
         log(err)
         log('stack brace: \n')
         log(traceback.extract_stack())
         log('=====================================')
-        return ret
+        return [False, -1, '', '']
 
+    ret = [
+        True,
+    ]
     ret[0] = cmdRet[0] is 0
-    # ret, stdout, stderr = ret
+    ret.append(cmdRet[:])
     return ret
 
 
@@ -99,3 +141,25 @@ def findFileInPathCond_FirstOnly(dir, cond):
     else:
         logging.fatal("can't find file satisfy condition at %s", dir)
     return ret
+
+
+def appendToFile(file, string):
+    with open(file, "a") as myfile:
+        if isinstance(string, collections.Sequence):
+            for l in string:
+                myfile.write(l + '\n')
+        else:
+            myfile.write(string + '\n')
+
+def writeToFile(file, string):
+    with open(file, "w") as myfile:
+        if isinstance(string, collections.Sequence):
+            for l in string:
+                myfile.write(l + '\n')
+        else:
+            myfile.write(string + '\n')
+
+def writeVecToFile(filename, vecStr):
+    file = open(filename, 'w')
+    for s in vecStr:
+        file.write(s + '\n')

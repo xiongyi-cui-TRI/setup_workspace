@@ -99,27 +99,8 @@ sudo chmod 777 -R $RD_LOG_DIR
 
 echo '########## system_setup.bash  START' >> ~/.bashrc
 
-echo source ${ROS_ROOT_PATH}/setup.bash >> ~/.bashrc
-echo source ${RD_ROS_WORKSPACE}/devel/setup.bash >> ~/.bashrc
 
-echo alias ymake="'catkin_make install -DCMAKE_INSTALL_PREFIX:PATH=$ROS_WORKSPACE_INSTALL_PATH -C ${RD_ROS_WORKSPACE} -DCMAKE_BUILD_TYPE=Debug'" >> ~/.bashrc
-echo alias ymakerelease="'catkin_make install -DCMAKE_INSTALL_PREFIX:PATH=$ROS_WORKSPACE_INSTALL_PATH -C ${RD_ROS_WORKSPACE} -DCMAKE_BUILD_TYPE=Release'" >> ~/.bashrc
-echo alias ytest="'(yhome && cd ../build/ && ctest)'" >> ~/.bashrc
-
-echo alias rhome="'cd ${RD_LIB_PATH}/RD_FreeCAD'" >> ~/.bashrc
-echo alias rmake="'(rhome && cd build && cmake .. -DCMAKE_INSTALL_PREFIX:PATH=./install/ -DCMAKE_BUILD_TYPE=Debug && make -j6)'" >> ~/.bashrc
-# fast rmake do not reconfig cmake, will not work if add new files or any changes to cmake
-echo alias frmake="'(rhome && cd build && make -j6 -f CMakeFiles/Makefile2)'" >> ~/.bashrc
-echo alias rmakerelease="'(rhome && cd build && cmake .. -DCMAKE_INSTALL_PREFIX:PATH=./install/ -DCMAKE_BUILD_TYPE=Release && make -j6)'" >> ~/.bashrc
-echo alias clion-keyboard-fix="'killall -9 ibus-x11'" >> ~/.bashrc
-echo alias gitpruneRemote="'git fetch origin --prune'" >> ~/.bashrc
-# this is to auto start/stop robot launch file
-echo alias startRobotRoslaunch="'${RD_SETUP_SCRIPT_PATH}/dev/start-auto-roslaunch.sh start'" >> ~/.bashrc
-echo alias stopRobotRoslaunch="'${RD_SETUP_SCRIPT_PATH}/dev/start-auto-roslaunch.sh stop'" >> ~/.bashrc
-ROS_EXPORT_VAR='export ROSCONSOLE_FORMAT='"'"'[${severity}] [${time} ${file} ${line}]: ${message}'"'"
-echo "$ROS_EXPORT_VAR" >> ~/.bashrc
-
-python3 setup_indigo_14.04.py
+python3 python/setup_indigo_14.04.py
 echo '########## system_setup.bash  END' >> ~/.bashrc
 source ~/.bashrc
 

@@ -85,7 +85,7 @@ def printCmdRunReturn(ret, cmd=None, successLog=None, failLog=None):
     log('return code: %d', ret[0])
     log('stdout: %s', ret[1])
     log('stderr: %s', ret[2])
-    log('stack brace: \n')
+    log('stack trace: \n')
     log(traceback.extract_stack())
     log('=====================================')
 
@@ -103,16 +103,14 @@ def runCmd(cmd):
         log(cmd)
         log('exception: ')
         log(err)
-        log('stack brace: \n')
+        log('stack trace: \n')
         log(traceback.extract_stack())
         log('=====================================')
         return [False, -1, '', '']
 
-    ret = [
-        True,
-    ]
+    ret = [True,]
     ret[0] = cmdRet[0] is 0
-    ret.append(cmdRet[:])
+    ret.extend(cmdRet)
     return ret
 
 
@@ -142,14 +140,16 @@ def findFileInPathCond_FirstOnly(dir, cond):
         logging.fatal("can't find file satisfy condition at %s", dir)
     return ret
 
+def isSequenceContainer(var):
+    return isinstance(var, collections.Sequence) and not isinstance(var, str)
 
 def appendToFile(file, string):
     with open(file, "a") as myfile:
-        if isinstance(string, collections.Sequence):
+        if isSequenceContainer(string):
             for l in string:
-                myfile.write(l + '\n')
+                myfile.write(l)
         else:
-            myfile.write(string + '\n')
+            myfile.write(string)
 
 def writeToFile(file, string):
     with open(file, "w") as myfile:
@@ -163,3 +163,4 @@ def writeVecToFile(filename, vecStr):
     file = open(filename, 'w')
     for s in vecStr:
         file.write(s + '\n')
+

@@ -10,8 +10,8 @@ def sourceFileInBashrc(file_full):
 
 def makeBashFunction(functionName, functionContent):
     return '''
-    function  {}()
-    {
-    {}
-    }\n
-    '''.format(functionName, functionContent)
+function  %s()
+{
+%s
+}\n
+    ''' % (functionName, functionContent)

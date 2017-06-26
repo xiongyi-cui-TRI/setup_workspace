@@ -25,7 +25,7 @@ source ${gScriptPath}/install_ubuntu.bash
 
 wget -O - http://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
 
-sudo apt-get update
+# sudo apt-get update
 
 sudo apt-get install -y build-essential
 sudo apt-get install -y git
@@ -57,14 +57,12 @@ insertAfterLine "/usr/lib/python2.7/dist-packages/openravepy/__init__.py" \
 
 sudo easy_install pip
 
-# install ros
-
+# python3 python/setup_ros_14.04.py
 
 # nlopt, needed by trac ik
 sudo apt-get install -y libnlopt-dev
 
 sudo apt-get install -y cmake  libgtest-dev 
-sudo apt-get install -y ros-indigo-catkin
 
 source /opt/ros/indigo/setup.bash
 
@@ -84,27 +82,19 @@ exportPath()
 	echo $@ >> ~/.bashrc
 }
 
-exportPath 'export RD_ROS_WORKSPACE=~/workspace'
-exportPath 'export RD_LIB_PATH=~/library/'
-mkdir -p $RD_LIB_PATH
-
-exportPath 'export RD_SYSTEM_CONFIG_DIR=/var/rd-config'
-sudo mkdir -p $RD_SYSTEM_CONFIG_DIR
-sudo chmod 777 -R $RD_SYSTEM_CONFIG_DIR
-
-exportPath 'export RD_LOG_DIR=/var/rd-logs'
-sudo mkdir -p $RD_LOG_DIR
-sudo chmod 777 -R $RD_LOG_DIR
 
 
 echo '########## system_setup.bash  START' >> ~/.bashrc
 
-
+# install ros
 python3 python/setup_indigo_14.04.py
 echo '########## system_setup.bash  END' >> ~/.bashrc
 source ~/.bashrc
 
 cd ${RD_LIB_PATH}
+echo "!!!!!!!!!!!!!!!! ${RD_SETUP_SCRIPT_PATH}"
+echo "!!!!!!!!!!!!!!!! ${RD_SETUP_SCRIPT_PATH}"
+echo "!!!!!!!!!!!!!!!! ${RD_SETUP_SCRIPT_PATH}"
 sh ${RD_SETUP_SCRIPT_PATH}/install_gcc6.sh
 sh ${RD_SETUP_SCRIPT_PATH}/install-vendor-library.sh
 sh ${RD_SETUP_SCRIPT_PATH}/dev/download-repo.sh

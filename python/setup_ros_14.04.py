@@ -1,3 +1,4 @@
+import os
 import export_path
 import apt_get
 import cmdUtil
@@ -15,16 +16,21 @@ backtrace.hook(
 
 
 class Install_ROS:
-    def __init__(self):
+    def __init__(self, rosDistro='indigo'):
+        self.rosDistro = rosDistro
+        homeDir = cmdUtil.getHomeDir()
+        self.ROS_PATH_FILE = homeDir + 'ros_setup.sh'
+        self.ROS_COMMAND_FILE = homeDir + 'ros_command.sh'
         a = 1
 
     # this repo config are the same, at least for indigo and Kinetic
-    def configDebianRepo(forceAptgetUpdate=False):
+    def configDebianRepo(self, forceAptgetUpdate=False):
         repoFile = '/etc/apt/sources.list.d/ros-latest.list'
         try:
             # if the file exist do nothing
             ls[repoFile].run()
         except:
+            print('cant find ros repo file '+repoFile)
             # if the file doens't exist, create file and update
             os.system(
                 "sudo sh -c 'echo \"deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main\" > "
@@ -32,35 +38,39 @@ class Install_ROS:
             os.system(
                 "sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 \
                 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116")
-            os.system("sudo apt-get update")
+            apt_get.apt_get_update()
         if forceAptgetUpdate:
-            os.system("sudo apt-get update")
+            apt_get.apt_get_update()
 
     # rosDistro is ros distribution name (lower case), indigo, kinetic
-    def run(self, rosDistro='indigo'):
-        self.rosDistro = rosDistro
-        self.ROS_PATH_FILE = export_path.homeDir + 'ros_' + rosDistro + '_setup.sh'
+    def run(self):
         self.configDebianRepo()
-        apt_get.apt_get_install(
-            'ros-' + rosDistro + '-desktop')  # ros-indigo-desktop
-        apt_get.apt_get_install('ros-' + rosDistro + '-desktop')
-        apt_get.apt_get_install(
-            'ros-' + rosDistro + '-shape-msgs')  # ros-indigo-shape-msgs
-        apt_get.apt_get_install(
-            'ros-' + rosDistro +
-            '-visualization-msgs')  # ros-indigo-visualization-msgs
-        apt_get.apt_get_install(
-            'ros-' + rosDistro + '-moveit-full')  # ros-indigo-moveit-full
-        apt_get.apt_get_install(
-            'ros-' + rosDistro +
-            '-tf2-geometry-msgs')  # ros-indigo-tf2-geometry-msgs
-        apt_get.apt_get_install(
-            'ros-' + rosDistro + '-catkin')  # ros-indigo-catkin
-        apt_get.apt_get_install(
-            'ros-' + rosDistro + '-catkin')  # ros-indigo-catkin
-        packList = 'python-catkin-pkg python-empy python-nose python-setuptools'.split(
-        )
-        self.exportROS_Path(packList)
+
+        # ros-indigo-
+        rosPrefix = 'ros-' + self.rosDistro + '-'
+
+        
+        rosPackages=[
+        # ros-indigo-desktop-full
+        rosPrefix + 'desktop-full',
+        rosPrefix + 'desktop',
+        rosPrefix + 'shape-msgs',
+        # ros-indigo-visualization-msgs
+        rosPrefix + 'visualization-msgs',
+        # ros-indigo-moveit-full
+        rosPrefix + 'moveit-full',
+        # ros-indigo-tf2-geometry-msgs
+        rosPrefix + 'tf2-geometry-msgs',
+        # ros-indigo-catkin
+        rosPrefix + 'catkin',
+        'python-catkin-pkg',
+        'python-empy',
+        'python-nose',
+        'python-setuptools'
+        ] 
+        apt_get.apt_get_install(rosPackages)
+        self.exportROS_Path()
+        self.exportROS_bashCommand()
 
     def exportROS_Path(self):
         export_path.exportRD_Path()
@@ -82,8 +92,8 @@ class Install_ROS:
         ros_path.append('source ${ROS_ROOT_PATH}/setup.bash')
         ros_path.append('source ${RD_ROS_WORKSPACE}/devel/setup.bash')
 
-        export_path.writeVecToFile(self.ROS_PATH_FILE, ros_path)
-        export_path.appendSourcingFileToBashrc(self.ROS_PATH_FILE)
+        cmdUtil.writeVecToFile(self.ROS_PATH_FILE, ros_path)
+        bashrc_helper.sourceFileInBashrc(self.ROS_PATH_FILE)
 
     def exportROS_bashCommand(self):
         export_path.exportRD_Command()
@@ -94,17 +104,19 @@ class Install_ROS:
                                            'cd ${RD_ROS_WORKSPACE}/src/'))
 
         ymakeCommand='catkin_make install -DCMAKE_INSTALL_PREFIX:PATH=$ROS_WORKSPACE_INSTALL_PATH ' \
-                     '-C ${RD_ROS_WORKSPACE} -DCMAKE_BUILD_TYPE={}' +export_path.getCMakeThreadParam()
+                     '-C ${RD_ROS_WORKSPACE} -DCMAKE_BUILD_TYPE=%s' +export_path.getCMakeThreadParam()
         ros_command.append(
             bashrc_helper.makeBashFunction('ymake',
-                                           ymakeCommand.format('Debug')))
+                                           ymakeCommand % 'Debug'))
         ros_command.append(
             bashrc_helper.makeBashFunction('ymakerelease',
-                                           ymakeCommand.format('Release')))
+                                           ymakeCommand % 'Release'))
 
         ros_command.append(
             bashrc_helper.makeBashFunction('ytest',
                                            '(yhome && cd ../build/ && ctest)'))
+        cmdUtil.writeVecToFile(self.ROS_COMMAND_FILE, ros_command)
+        bashrc_helper.sourceFileInBashrc(self.ROS_COMMAND_FILE)
 
 
 def main():

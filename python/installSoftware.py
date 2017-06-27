@@ -112,6 +112,7 @@ if __name__ == '__main__':
     chrome.config()
     mono.config()
     simpleRecorder.config()
+    clang.config()
 
     apt_get.apt_get_update()
 
@@ -119,3 +120,4 @@ if __name__ == '__main__':
     chrome.install()
     simpleRecorder.install()
     mono.install()
+    clang.install()

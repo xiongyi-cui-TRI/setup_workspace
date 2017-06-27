@@ -68,7 +68,7 @@ def logError(msg):
 
 # runCmd() will return 4-tuple of the (ifSucceeded, exit code, stdout, and stderr)
 # this function is used to pretty print it
-def printCmdRunReturn(ret, cmd=None, successLog=None, failLog=None):
+def logCmdRunSuccess(ret, cmd=None, successLog=None):
     log = logging.debug
 
     success = ret[0] is 0
@@ -79,8 +79,6 @@ def printCmdRunReturn(ret, cmd=None, successLog=None, failLog=None):
         log('command: %s', str(cmd))
     if success and successLog is not None:
         logging.info(successLog)
-    elif not success and failLog is not None:
-        logging.info(failLog)
 
     log('return code: %d', ret[0])
     log('stdout: %s', ret[1])
@@ -92,11 +90,15 @@ def printCmdRunReturn(ret, cmd=None, successLog=None, failLog=None):
 
 # return [ifReturnCodeIsZero, returnCode, stdout, stderr]
 # successed, ret, stdout, stderr = buildUtil.runCmd(pwd)
-def runCmd(cmd):
+# quiet -> bool , if true, log no error
+def runCmd(cmd, quiet=False):
     try:
         cmdRet = cmd.run(retcode=None)
-        printCmdRunReturn(cmdRet, cmd=cmd)
+        logCmdRunSuccess(cmdRet, cmd=cmd)
     except plumbum.commands.ProcessExecutionError as err:
+        ret = [False, -1, '', '']
+        if quiet:
+            return ret
         log = logging.error
         log('=====================================')
         log('exception thrown when run command: ')
@@ -106,9 +108,11 @@ def runCmd(cmd):
         log('stack trace: \n')
         log(traceback.extract_stack())
         log('=====================================')
-        return [False, -1, '', '']
+        return ret
 
-    ret = [True,]
+    ret = [
+        True,
+    ]
     ret[0] = cmdRet[0] is 0
     ret.extend(cmdRet)
     return ret
@@ -140,8 +144,10 @@ def findFileInPathCond_FirstOnly(dir, cond):
         logging.fatal("can't find file satisfy condition at %s", dir)
     return ret
 
+
 def isSequenceContainer(var):
     return isinstance(var, collections.Sequence) and not isinstance(var, str)
+
 
 def appendToFile(file, string):
     with open(file, "a") as myfile:
@@ -151,6 +157,7 @@ def appendToFile(file, string):
         else:
             myfile.write(string)
 
+
 def writeToFile(file, string):
     with open(file, "w") as myfile:
         if isinstance(string, collections.Sequence):
@@ -159,8 +166,8 @@ def writeToFile(file, string):
         else:
             myfile.write(string + '\n')
 
+
 def writeVecToFile(filename, vecStr):
     file = open(filename, 'w')
     for s in vecStr:
         file.write(s + '\n')
-

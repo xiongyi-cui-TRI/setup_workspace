@@ -23,7 +23,6 @@ source ${gScriptPath}/install_ubuntu.bash
 # clang 3.8
 
 
-wget -O - http://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
 
 # sudo apt-get update
 
@@ -56,6 +55,14 @@ insertAfterLine "/usr/lib/python2.7/dist-packages/openravepy/__init__.py" \
 
 
 sudo easy_install pip
+echo '########## system_setup.bash  START' >> ~/.bashrc
+
+# install ros
+python3 python/setup_ros_14.04.py
+python3 python/installSoftware.py
+echo '########## system_setup.bash  END' >> ~/.bashrc
+source ~/.bashrc
+
 
 # python3 python/setup_ros_14.04.py
 
@@ -76,21 +83,8 @@ cd ../
 catkin_make
 source devel/setup.bash
 
-exportPath()
-{
-	eval $@
-	echo $@ >> ~/.bashrc
-}
 
-
-
-echo '########## system_setup.bash  START' >> ~/.bashrc
-
-# install ros
-python3 python/setup_indigo_14.04.py
-echo '########## system_setup.bash  END' >> ~/.bashrc
 source ~/.bashrc
-
 cd ${RD_LIB_PATH}
 echo "!!!!!!!!!!!!!!!! ${RD_SETUP_SCRIPT_PATH}"
 echo "!!!!!!!!!!!!!!!! ${RD_SETUP_SCRIPT_PATH}"

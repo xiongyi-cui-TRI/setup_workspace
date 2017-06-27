@@ -43,7 +43,7 @@ class chrome:
 class simpleRecorder:
     @staticmethod
     def config():
-        os.system('sudo add-apt-repository ppa:maarten-baert/simplescreenrecorder')
+        os.system('sudo add-apt-repository -y ppa:maarten-baert/simplescreenrecorder')
 
     @staticmethod
     def install():

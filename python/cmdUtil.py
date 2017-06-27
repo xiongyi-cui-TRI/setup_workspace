@@ -1,5 +1,6 @@
 from plumbum.cmd import sudo
 from plumbum.cmd import mkdir
+import plumbum
 import logging
 import traceback
 import sys
@@ -68,17 +69,17 @@ def logError(msg):
 
 # runCmd() will return 4-tuple of the (ifSucceeded, exit code, stdout, and stderr)
 # this function is used to pretty print it
-def logCmdRunSuccess(ret, cmd=None, successLog=None):
+def logCmdRunResult(ret, cmd, quiet=False):
     log = logging.debug
 
     success = ret[0] is 0
-    if not success:
+    if not success and not quiet:
         log = logging.error
     log('=====================================')
     if cmd is not None:
         log('command: %s', str(cmd))
-    if success and successLog is not None:
-        logging.info(successLog)
+    if success:
+        logging.info("command: " + str(cmd) + " successed")
 
     log('return code: %d', ret[0])
     log('stdout: %s', ret[1])
@@ -94,7 +95,7 @@ def logCmdRunSuccess(ret, cmd=None, successLog=None):
 def runCmd(cmd, quiet=False):
     try:
         cmdRet = cmd.run(retcode=None)
-        logCmdRunSuccess(cmdRet, cmd=cmd)
+        logCmdRunResult(cmdRet, cmd=cmd, quiet=quiet)
     except plumbum.commands.ProcessExecutionError as err:
         ret = [False, -1, '', '']
         if quiet:

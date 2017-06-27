@@ -24,7 +24,7 @@ def setup_rd_dir(dir, setPermission=False, useSudoIfNecessary=True):
         if ret[0]:
             print('created dir: ' + dir)
             if setPermission:
-                cmd = chmod['777', dir]
+                cmd = sudo[chmod['777', dir]]
                 ret = cmdUtil.runCmd(cmd)
     else:
         # not using sudo mkdir

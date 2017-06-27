@@ -4,6 +4,7 @@ import apt_get
 import cmdUtil
 from plumbum.cmd import ls
 import backtrace
+import sysUtil
 import bashrc_helper
 backtrace.hook(
     reverse=False,
@@ -17,7 +18,12 @@ backtrace.hook(
 
 class Install_ROS:
     def __init__(self, rosDistro='indigo'):
-        self.rosDistro = rosDistro
+        if sysUtil.isUbuntu14LTS():
+
+            self.rosDistro = 'indigo'
+        elif sysUtil.isUbuntu16LTS():
+            self.rosDistro = 'kinetic'
+
         homeDir = cmdUtil.getHomeDir()
         self.ROS_PATH_FILE = homeDir + 'ros_setup.sh'
         self.ROS_COMMAND_FILE = homeDir + 'ros_command.sh'

@@ -59,7 +59,6 @@ class Install_ROS:
         rosPackages=[
         # ros-indigo-desktop-full
         rosPrefix + 'desktop-full',
-        rosPrefix + 'desktop',
         rosPrefix + 'shape-msgs',
         # ros-indigo-visualization-msgs
         rosPrefix + 'visualization-msgs',

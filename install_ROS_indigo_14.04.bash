@@ -25,17 +25,7 @@ source ${gScriptPath}/install_ubuntu.bash
 
 
 # sudo apt-get update
-
-sudo apt-get install -y build-essential
-sudo apt-get install -y git
-sudo apt-get install -y gitk
-sudo apt-get install -y vim
-sudo apt-get install -y meld
-sudo apt-get install -y terminator
-sudo apt-get install -y htop
 sudo apt-get install -y python-wstool
-sudo apt-get install -y xclip
-sudo apt-get install -y openssh-server
 sudo apt-get install -y sshpass
 sudo apt-get install -y python-setuptools
 sudo apt-get install -y python-pip
@@ -64,20 +54,15 @@ echo '########## system_setup.bash  END' >> ~/.bashrc
 source ~/.bashrc
 
 
-# python3 python/setup_ros_14.04.py
-
-# nlopt, needed by trac ik
-sudo apt-get install -y libnlopt-dev
-
 sudo apt-get install -y cmake  libgtest-dev 
 
 source /opt/ros/indigo/setup.bash
 
 sudo rosdep init
 rosdep update
-mkdir -p ~/workspace/src
-cd ~/workspace/src
-sudo chmod -R 777 ~/workspace/src/*
+mkdir -p ${RD_ROS_WORKSPACE}/src
+cd ${RD_ROS_WORKSPACE}/src
+# sudo chmod -R 777 ~/workspace/src/*
 catkin_init_workspace
 cd ../
 catkin_make
@@ -89,9 +74,9 @@ cd ${RD_LIB_PATH}
 echo "!!!!!!!!!!!!!!!! ${RD_SETUP_SCRIPT_PATH}"
 echo "!!!!!!!!!!!!!!!! ${RD_SETUP_SCRIPT_PATH}"
 echo "!!!!!!!!!!!!!!!! ${RD_SETUP_SCRIPT_PATH}"
-sh ${RD_SETUP_SCRIPT_PATH}/install_gcc6.sh
-sh ${RD_SETUP_SCRIPT_PATH}/install-vendor-library.sh
-sh ${RD_SETUP_SCRIPT_PATH}/dev/download-repo.sh
+# sh ${RD_SETUP_SCRIPT_PATH}/install_gcc6.sh
+# sh ${RD_SETUP_SCRIPT_PATH}/install-vendor-library.sh
+# sh ${RD_SETUP_SCRIPT_PATH}/dev/download-repo.sh
 # python path problem was solved in FreeCAD
 # sh ${RD_SETUP_SCRIPT_PATH}/scripts/insertToFile.sh
 

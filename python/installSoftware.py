@@ -67,6 +67,7 @@ class clang:
     clangVersion = '4.0'    
     @staticmethod
     def config():
+        a = 0
         # NOTE: Not using This method, using the default Ubuntu repo to install clang 3.9
                 # install clang 4.0
                 # http://apt.llvm.org/

@@ -3,6 +3,7 @@ import export_path
 import apt_get
 import cmdUtil
 from plumbum.cmd import ls
+from plumbum.cmd import sudo
 import backtrace
 import sysUtil
 import bashrc_helper
@@ -64,6 +65,8 @@ class Install_ROS:
         rosPrefix + 'visualization-msgs',
         # ros-indigo-moveit-full
         rosPrefix + 'moveit-full',
+        # for Kinetic, there's no moveit-full
+        rosPrefix + 'moveit',
         # ros-indigo-tf2-geometry-msgs
         rosPrefix + 'tf2-geometry-msgs',
         # ros-indigo-catkin
@@ -76,6 +79,18 @@ class Install_ROS:
         apt_get.apt_get_install(rosPackages)
         self.exportROS_Path()
         self.exportROS_bashCommand()
+        from plumbum.cmd import rosdep
+
+        # sudo rosdep init
+        # rosdep update
+        cmd = sudo[rosdep['init']]
+        ret = cmdUtil.runCmd(cmd, quiet=True)
+        cmd = rosdep['update']
+        ret = cmdUtil.runCmd(cmd)
+
+
+
+
 
     def exportROS_Path(self):
         export_path.exportRD_Path()
@@ -85,10 +100,15 @@ class Install_ROS:
             'export ROSCONSOLE_FORMAT=\'[${severity}] [${time} ${file} ${line}]: ${message}\''
         )
 
-        ros_path.append('# ROS path: \n')
 
-        ros_path.append('export ROS_ROOT_PATH=/opt/ros/' + self.rosDistro +
-                        '/')
+        rosRootPath = '/opt/ros/' + self.rosDistro + '/'
+        workspaceDir = '~/workspace'
+
+        ros_path.append('# ROS path: \n')
+        ros_path.append('export ROS_ROOT_PATH={}'.format(rosRootPath))
+        export_path.setup_rd_dir(workspaceDir)
+        export_path.setup_rd_dir(workspaceDir+'/src')
+        ros_path.append('export RD_ROS_WORKSPACE=' + workspaceDir)
         ros_path.append(
             'export ROS_WORKSPACE_INSTALL_PATH=${RD_ROS_WORKSPACE}/install/')
         ros_path.append(
@@ -99,6 +119,8 @@ class Install_ROS:
 
         cmdUtil.writeVecToFile(self.ROS_PATH_FILE, ros_path)
         bashrc_helper.sourceFileInBashrc(self.ROS_PATH_FILE)
+
+        
 
     def exportROS_bashCommand(self):
         export_path.exportRD_Command()

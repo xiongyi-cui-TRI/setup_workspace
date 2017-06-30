@@ -12,6 +12,7 @@ RD_COMMAND_FILE = homeDir + 'rd_command.sh'
 
 
 def setup_rd_dir(dir, setPermission=False, useSudoIfNecessary=True):
+    dir = expanduser(dir)
     cmd = cmdUtil.mkdirp[dir]
     ret = cmdUtil.runCmd(cmd, quiet=True)
     if ret[0]:
@@ -36,10 +37,7 @@ def setup_rd_dir(dir, setPermission=False, useSudoIfNecessary=True):
 
 def exportRD_Path():
     rd_path = []
-    wsDir = '~/workspace'
-    wsDirExp = expanduser(wsDir)
-    setup_rd_dir(wsDirExp)
-    rd_path.append('export RD_ROS_WORKSPACE=' + wsDir)
+    
     rd_path.append('export RD_LIB_PATH=~/library/')
 
     # create config dir

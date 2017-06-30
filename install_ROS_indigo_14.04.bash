@@ -44,30 +44,27 @@ insertAfterLine "/usr/lib/python2.7/dist-packages/openravepy/__init__.py" \
 
 
 
-sudo easy_install pip
+# sudo easy_install pip
 echo '########## system_setup.bash  START' >> ~/.bashrc
 
 # install ros
-python3 python/setup_ros_14.04.py
 python3 python/installSoftware.py
+python3 python/setup_ros_14.04.py
 echo '########## system_setup.bash  END' >> ~/.bashrc
 source ~/.bashrc
 
+echo "!!!!!!!!!!!!!!!! ${RD_SETUP_SCRIPT_PATH}"
 
-sudo apt-get install -y cmake  libgtest-dev 
 
-source /opt/ros/indigo/setup.bash
+    # this step can't be done in python
+    # do it here for every ros distro
+    # only one of them will successed
+    source /opt/ros/indigo/setup.bash
+    source /opt/ros/kinetic/setup.bash
 
-sudo rosdep init
-rosdep update
-mkdir -p ${RD_ROS_WORKSPACE}/src
-cd ${RD_ROS_WORKSPACE}/src
-# sudo chmod -R 777 ~/workspace/src/*
-catkin_init_workspace
-cd ../
-catkin_make
-source devel/setup.bash
 
+    cd ~/workspace
+    catkin_make
 
 source ~/.bashrc
 cd ${RD_LIB_PATH}

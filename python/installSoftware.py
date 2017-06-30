@@ -127,11 +127,14 @@ class tools:
         'git',
         'gitk',
         'meld',
+        'vim',
         'terminator',
         'htop',
         'xclip',
         'openssh-server',
         'sshpass',
+        'cmake',
+        'libgtest-dev'
 
         ])
         return 

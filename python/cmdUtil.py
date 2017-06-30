@@ -1,5 +1,6 @@
 from plumbum.cmd import sudo
 from plumbum.cmd import mkdir
+from plumbum.cmd import pwd
 import plumbum
 import logging
 import traceback
@@ -172,3 +173,4 @@ def writeVecToFile(filename, vecStr):
     file = open(filename, 'w')
     for s in vecStr:
         file.write(s + '\n')
+

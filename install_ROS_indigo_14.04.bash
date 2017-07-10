@@ -77,3 +77,4 @@ echo "!!!!!!!!!!!!!!!! ${RD_SETUP_SCRIPT_PATH}"
 # python path problem was solved in FreeCAD
 # sh ${RD_SETUP_SCRIPT_PATH}/scripts/insertToFile.sh
 
+

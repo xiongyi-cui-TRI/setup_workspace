@@ -107,7 +107,11 @@ def exportRD_Command():
         bashrc_helper.makeBashFunction('clion-keyboard-fix',
                                        'killall -9 ibus-x11'))
     rd_command.append(
-        bashrc_helper.makeBashFunction('gitpruneRemote',
+        bashrc_helper.makeBashFunction('gitprune-remote',
+                                       'git fetch origin --prune'))
+
+    rd_command.append(
+        bashrc_helper.makeBashFunction('gitprune-local',
                                        'git branch --merged sprint | egrep -v \'^[*]? {1,2}(develop|sprint|master)$\' | xargs git branch -d'))
 
     rd_command.append('# this is to auto start/stop robot launch file')

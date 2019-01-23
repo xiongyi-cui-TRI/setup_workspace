@@ -7,7 +7,7 @@ sudo apt-get update
 sudo apt-get install git vim htop gitk sublime-text gnome-tweak-tool
 
 
-sudo apt-get install python3-pip python3-venv python3-yapf
+sudo apt-get install python3-pip python3-venv python3-yapf python3-tk
 
 mkdir -p ~/workspace
 cd ~/workspace

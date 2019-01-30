@@ -13,6 +13,9 @@ mkdir -p ~/workspace
 cd ~/workspace
 python3 -m venv dl_env 
 
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install
+
 # put into ~/.bashrc
 	# Avoid duplicates
 	export HISTCONTROL=ignoredups:erasedups  

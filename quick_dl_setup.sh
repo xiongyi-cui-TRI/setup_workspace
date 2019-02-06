@@ -14,7 +14,7 @@ cd ~/workspace
 python3 -m venv dl_env 
 
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-~/.fzf/install
+~/.fzf/install --key-bindings --completion --update-rc
 
 # put setup script into .bashrc
 echo "# xiongyi workspace setup script start----------

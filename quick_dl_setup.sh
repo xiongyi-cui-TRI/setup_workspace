@@ -34,4 +34,4 @@ echo "# xiongyi workspace setup script start----------
 
 # install libraries in venv
 source ~/workspace/dl_env/bin/activate
-pip3 install torch torchvision numpy scipy matplotlib ipython jupyter pandas tensorboardX pyyaml
+pip3 install torch torchvision numpy scipy matplotlib ipython jupyter pandas tensorboardX pyyaml pycocotools pyrealsense2 pytransform3d

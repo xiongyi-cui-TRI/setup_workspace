@@ -1,0 +1,10 @@
+[alias]
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	branchsort = for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(align:40)%(refname:short)%(end)%(color:reset) - %(align:16)%(authorname)%(end) (%(color:green)%(committerdate:relative)%(color:reset)) - %(contents:subject)' 
+
+[user]
+	email = cuixiongyi2013@gmail.com
+	name = Xiongyi Cui
+[rerere]
+	enabled = true
+  

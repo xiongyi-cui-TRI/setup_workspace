@@ -24,8 +24,8 @@ echo "# xiongyi workspace setup script start----------
         export HISTCONTROL=ignoredups:erasedups  
         # When the shell exits, append to the history file instead of overwriting it
         shopt -s histappend
-        HISTSIZE=90000
-        SAVEHIST=90000
+        HISTSIZE=99999
+        SAVEHIST=99999
 
         # After each command, append to the history file and reread it
         export PROMPT_COMMAND=\"\${PROMPT_COMMAND:+\$PROMPT_COMMAND$'\\n'}history -a; history -c; history -r\"
@@ -39,14 +39,14 @@ echo "# xiongyi workspace setup script start----------
                 export HSTR_CONFIG=hicolor,prompt-bottom,keywords-matching  # get more colors, show prompt at bottom, reg based matching
                 shopt -s histappend              # append new history items to .bash_history
         	# export HISTCONTROL=ignorespace   # leading space hides commands from history
-                export HISTFILESIZE=${HISTSIZE}        # increase history file size (default is 500)
-                export HISTSIZE=${HISTFILESIZE}  # increase history size (default is 500)
+                export HISTFILESIZE=\${HISTSIZE}        # increase history file size (default is 500)
+                export HISTSIZE=\${HISTFILESIZE}  # increase history size (default is 500)
                 # ensure synchronization between Bash memory and history file
-                export PROMPT_COMMAND="history -a; history -n; ${PROMPT_COMMAND}"
+                export PROMPT_COMMAND=\"history -a; history -n; ${PROMPT_COMMAND}\"
                 # if this is interactive shell, then bind hstr to Ctrl-r (for Vi mode check doc)
-                if [[ $- =~ .*i.* ]]; then bind '"\C-r": "\C-a hstr -- \C-j"'; fi
+                if [[ $- =~ .*i.* ]]; then bind '\"\C-r\": \"\C-a hstr -- \C-j\"'; fi
                 # if this is interactive shell, then bind 'kill last command' to Ctrl-x k
-                if [[ $- =~ .*i.* ]]; then bind '"\C-xk": "\C-a hstr -k \C-j"'; fi
+                if [[ $- =~ .*i.* ]]; then bind '\"\C-xk\": \"\C-a hstr -k \C-j\"'; fi
                 #export HSTR_CONFIG=blacklist
 # xiongyi workspace setup script end----------
 " | tee -a ~/.bashrc

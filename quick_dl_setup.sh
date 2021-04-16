@@ -9,7 +9,8 @@ sudo apt-get install -y git vim htop gitk sublime-text gnome-tweak-tool
 # add git log prettifier
 git config --global alias.lg "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
 
-sudo apt-get install -y python3-pip python3-venv python3-yapf python3-tk
+sudo apt-get install -y python3-pip python3-venv python3-yapf 
+sudo pip3 install black
 
 mkdir -p ~/workspace
 cd ~/workspace

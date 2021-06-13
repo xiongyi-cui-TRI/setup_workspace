@@ -5,6 +5,8 @@ echo "deb https://download.sublimetext.com/ apt/dev/" | sudo tee /etc/apt/source
 sudo apt-get update
 
 sudo apt-get install -y git vim htop gitk sublime-text gnome-tweak-tool
+# Used for kill program when out of memory to avoid system hanging
+sudo apt-get install earlyoom
 
 # add git log prettifier
 git config --global alias.lg "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"

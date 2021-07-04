@@ -21,6 +21,11 @@ python3 -m venv dl_env
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install --key-bindings --completion --update-rc
 
+# Install tmux config (my branch)
+git clone -b cxy_config https://github.com/cuixiongyi/.tmux.git
+cp .tmux/.tmux.conf ~/.tmux.conf
+cp .tmux/.tmux.conf.local ~/.
+
 # put setup script into .bashrc
 echo "# xiongyi workspace setup script start----------
         # record command history, avoid duplicates

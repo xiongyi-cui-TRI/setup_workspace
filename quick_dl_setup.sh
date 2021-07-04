@@ -24,7 +24,7 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 # Install tmux config (my branch)
 git clone -b cxy_config https://github.com/cuixiongyi/.tmux.git
 cp .tmux/.tmux.conf ~/.tmux.conf
-cp .tmux/.tmux.conf.local ~/.
+cp .tmux/.tmux.conf.local ~/.tmux.conf.local
 
 # put setup script into .bashrc
 echo "# xiongyi workspace setup script start----------

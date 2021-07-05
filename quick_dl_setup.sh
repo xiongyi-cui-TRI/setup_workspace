@@ -22,13 +22,13 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install --key-bindings --completion --update-rc
 
 # Install tmux config (my branch)
-git clone -b cxy_config https://github.com/cuixiongyi/.tmux.git /tmp
+git clone -b cxy_config https://github.com/cuixiongyi/.tmux.git /tmp/.tmux
 cp /tmp/.tmux/.tmux.conf ~/.tmux.conf
 cp /tmp/.tmux/.tmux.conf.local ~/.tmux.conf.local
 
 # Install Konsole
 sudo apt-get -y install konsole
-git clone https://github.com/cuixiongyi/setup_workspace /tmp
+git clone https://github.com/cuixiongyi/setup_workspace /tmp/setup_workspace
 cp /tmp/setup_workspace/configs/cxy_konsole_profile.profile ~/.local/share/konsole/
 cp /tmp/setup_workspace/configs/konsole.css ~/.local/share/konsole/
 ##### Manually config Konsole

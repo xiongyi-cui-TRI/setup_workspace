@@ -26,15 +26,8 @@ git clone -b cxy_config https://github.com/cuixiongyi/.tmux.git /tmp/.tmux
 cp /tmp/.tmux/.tmux.conf ~/.tmux.conf
 cp /tmp/.tmux/.tmux.conf.local ~/.tmux.conf.local
 
-# Install Konsole
-sudo apt-get -y install konsole
 git clone https://github.com/cuixiongyi/setup_workspace /tmp/setup_workspace
-cp /tmp/setup_workspace/configs/cxy_konsole_profile.profile ~/.local/share/konsole/
-cp /tmp/setup_workspace/configs/konsole.css ~/.local/share/konsole/
-##### Manually config Konsole
-# Open Konsole, go to Settings -> Configure Konsole -> [tab] TabBar, 
-#       [checkbox] user-defined stylesheet, put ~/.local/share/konsole/konsole.css in the textbox
-
+cp /tmp/setup_workspace/configs/gtk.css ~/.config/gtk-3.0/gtk.css
 
 # put setup script into .bashrc
 echo "# xiongyi workspace setup script start----------
